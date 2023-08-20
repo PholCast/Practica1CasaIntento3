@@ -8,7 +8,7 @@ namespace Practica1CasaIntento3
 {
     class EmpresaRemodelaje
     {
-
+        
 
         public EmpresaRemodelaje()
         {

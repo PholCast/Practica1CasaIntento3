@@ -23,12 +23,45 @@ namespace Practica1CasaIntento3
 
             casa1.MostrarPlanos();
 
-            Console.Write(casa1.GetPlanoCasa());
-            //Habitacion habitacion1 = new Habitacion("Cuarto",4, new Habitante("Phol"));
+            
+            Habitacion habitacion1 = new Habitacion("Cuarto",4,0,4, new Habitante("Phol"));
 
-            //Console.WriteLine(habitacion1);
+            Habitacion habitacion2 = new Habitacion("Cuarto2", 2, 0, 5, new Habitante("G"));
 
+            
 
+            casa1.AgregarNuevaHab(1, habitacion1);
+            casa1.AgregarNuevaHab(1, habitacion2);
+
+            casa1.MostrarPlanos();
+
+            casa1.AmpliarHabitacionCasa(2, 2);
+
+            casa1.MostrarPlanos();
+        }
+
+        public static List<Habitacion> Adyacentes(Casa casaEjemplo,Habitacion habitacionEjemplo)
+        {
+            List<Habitacion> habitacionesAdyacentes = new List<Habitacion>();
+           
+                
+                if(habitacionEjemplo.PosicionFila == 0 && habitacionEjemplo.NumeroHabitacion-1 ==0)
+            {
+                habitacionesAdyacentes.Add(casaEjemplo.PlanoCasa[0][1]);
+                habitacionesAdyacentes.Add(casaEjemplo.PlanoCasa[1][0]);
+
+                for(int i = 1; i < casaEjemplo.PlanoCasa[1].Count; i++)
+                {
+                    double count = 0;
+                    for(int j = 1; j <= i; j++)
+                    {
+                        count += casaEjemplo.PlanoCasa[1][j].MetrosCuadrados;
+                        Console.WriteLine("count es: " + count);
+                    }
+                }
+                    
+                }
+            }
         }
     }
 }

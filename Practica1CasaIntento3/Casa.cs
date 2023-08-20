@@ -12,7 +12,7 @@ namespace Practica1CasaIntento3
         private List<List<Habitacion>> planoInicialCasa;
         private List<List<Habitacion>> planoCasa { get; set; }
         private Dictionary<int, int> diccionarioFilas;
-        //private List<Habitacion> habitaciones;
+       
 
 
         public Casa(int n)
@@ -45,8 +45,9 @@ namespace Practica1CasaIntento3
                 for (int j = 0; j < n; j++)
                 {
                     Habitante habitanteAux = new Habitante(nombresRandom[cont]);
-                    
-                    Habitacion nuevaHabitacion = new Habitacion(nombresHabitacionesRandom[cont],2,habitanteAux);
+
+                    //Donde dice j+1 es porque representa el numero de la casa. Pero tener en cuenta que para las posiciones de la matriz tocaria restarle 1
+                    Habitacion nuevaHabitacion = new Habitacion(nombresHabitacionesRandom[cont],2,i,j+1,habitanteAux);
 
                     habitanteAux.HabitacionActual= nuevaHabitacion;
                     
@@ -58,6 +59,12 @@ namespace Practica1CasaIntento3
             //planoCasa = planoInicialCasa;
             planoCasa = planoInicialCasa.Select(fila => fila.ToList()).ToList();
 
+        }
+
+        public List<List<Habitacion>> PlanoCasa
+        {
+            get {return  planoCasa;}
+            set { planoCasa = value;}
         }
         public void MostrarPlanos()
         {
@@ -72,10 +79,24 @@ namespace Practica1CasaIntento3
                 Console.Write("]");
                 Console.WriteLine();
             }
-            
+            Console.WriteLine();
             Console.ReadKey();
         }
+
+        public void AgregarNuevaHab(int fila, Habitacion habCrear)
+        {
+            diccionarioFilas[fila] += 1;
+
+            planoCasa[fila-1].Add(habCrear);
+
+            //Console.WriteLine("");
+        }
         
+        //Mientras tantos
+        public void AmpliarHabitacionCasa(int fila,int numeroHabitacion)
+        {
+            planoCasa[fila-1][numeroHabitacion - 1].AmpliarHabitacion(2);
+        }
 
 
     }
