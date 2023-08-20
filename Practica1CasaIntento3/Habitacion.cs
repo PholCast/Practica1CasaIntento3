@@ -23,7 +23,13 @@ namespace Practica1CasaIntento3
             objetos = new List<Objeto>();
             metroscuadrados = metroscuadradosHab;
             personas = new List<Persona>(); //definir bien para que cuando se crea inicialmente la casa ya esté la persona.
-            personas.Add(propietarioHabitacion);
+
+
+            //Si le pasan al propietario entonces se agrega a las personas que estan en dicha habitación
+            if (propietarioHabitacion != null)
+            {
+                personas.Add(propietarioHabitacion);
+            }
         }
 
 

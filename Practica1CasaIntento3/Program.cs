@@ -23,6 +23,7 @@ namespace Practica1CasaIntento3
 
             casa1.MostrarPlanos();
 
+            Console.Write(casa1.GetPlanoCasa());
             //Habitacion habitacion1 = new Habitacion("Cuarto",4, new Habitante("Phol"));
 
             //Console.WriteLine(habitacion1);

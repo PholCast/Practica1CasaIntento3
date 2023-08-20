@@ -10,7 +10,7 @@ namespace Practica1CasaIntento3
     public class Casa
     {
         private List<List<Habitacion>> planoInicialCasa;
-        private List<List<Habitacion>> planoCasa;
+        private List<List<Habitacion>> planoCasa { get; set; }
         private Dictionary<int, int> diccionarioFilas;
         //private List<Habitacion> habitaciones;
 
@@ -55,7 +55,8 @@ namespace Practica1CasaIntento3
                 }
                 planoInicialCasa.Add(filaHabitacion);
             }
-            planoCasa = planoInicialCasa;
+            //planoCasa = planoInicialCasa;
+            planoCasa = planoInicialCasa.Select(fila => fila.ToList()).ToList();
 
         }
         public void MostrarPlanos()
@@ -74,8 +75,9 @@ namespace Practica1CasaIntento3
             
             Console.ReadKey();
         }
+        
 
-       
+
     }
 
 }
