@@ -9,5 +9,16 @@ namespace Practica1CasaIntento3
 {
     public class Habitante : Persona
     {
+
+        public Habitante(string nombreHabitante, Habitacion habitacionAct=null) {
+        
+        nombre = nombreHabitante;
+        habitacionActual=habitacionAct;
+
+
+        }
+
+
+
     }
 }
