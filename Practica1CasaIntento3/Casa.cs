@@ -52,7 +52,7 @@ namespace Practica1CasaIntento3
                     Habitante habitanteAux = new Habitante(nombresRandom[cont] );
 
                     //Donde dice j+1 es porque representa el numero de la casa. Pero tener en cuenta que para las posiciones de la matriz tocaria restarle 1
-                    Habitacion nuevaHabitacion = new Habitacion(nombresHabitacionesRandom[random.Next(nombresHabitacionesRandom.Length)],2,i,j+1,habitanteAux);
+                    Habitacion nuevaHabitacion = new Habitacion(nombresHabitacionesRandom[random.Next(nombresHabitacionesRandom.Length)],20,i,j+1,habitanteAux);
 
                     habitanteAux.HabitacionActual= nuevaHabitacion;
                     

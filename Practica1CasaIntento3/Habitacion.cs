@@ -13,7 +13,7 @@ namespace Practica1CasaIntento3
 
         private Habitante propietarioHabitacion { get; set; }
         private List<Objeto> objetos { get; set; }
-        private double metroscuadrados { get; set; }
+        private double metroscuadrados;
         private List<Persona> personas { get; set; }
 
         private int posicionFila;
@@ -64,10 +64,10 @@ namespace Practica1CasaIntento3
         {
             String representacion = "[";
 
-            for (int i = 0; i < metroscuadrados; i++)
+            for (int i = 0; i < metroscuadrados/5; i++)
             {
 
-                if (i == metroscuadrados - 1)
+                if (i == metroscuadrados - 5)
                 {
                     representacion += "*";
                 }
