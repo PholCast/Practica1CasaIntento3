@@ -19,7 +19,7 @@ namespace Practica1CasaIntento3
             Console.WriteLine("Fecha y hora actual: " + tomorrow_ahorita);
             Console.WriteLine("Hora específica: " + ANGEL);*/
 
-            Casa casa1 = new Casa(3);
+            Casa casa1 = new Casa(4);
 
             casa1.MostrarPlanos();
 
@@ -35,33 +35,59 @@ namespace Practica1CasaIntento3
 
             casa1.MostrarPlanos();
 
-            casa1.AmpliarHabitacionCasa(2, 2);
+            casa1.AmpliarHabitacionCasa(1, 1,6);
+            casa1.AmpliarHabitacionCasa(2, 1, 3);
 
             casa1.MostrarPlanos();
+
+            //Probando adyacentes
+            List <Habitacion> adyacentesHab = Adyacentes(casa1, casa1.PlanoCasa[0][0]);
+
+            foreach(Habitacion element in adyacentesHab)
+            {
+                Console.WriteLine(element);
+            }
         }
 
         public static List<Habitacion> Adyacentes(Casa casaEjemplo,Habitacion habitacionEjemplo)
         {
             List<Habitacion> habitacionesAdyacentes = new List<Habitacion>();
            
-                
+                //Evaluando cuando esta en la esquina superior izquierda     
                 if(habitacionEjemplo.PosicionFila == 0 && habitacionEjemplo.NumeroHabitacion-1 ==0)
             {
                 habitacionesAdyacentes.Add(casaEjemplo.PlanoCasa[0][1]);
-                habitacionesAdyacentes.Add(casaEjemplo.PlanoCasa[1][0]);
 
-                for(int i = 1; i < casaEjemplo.PlanoCasa[1].Count; i++)
+
+                //count anterior representa como donde empieza la habitacion
+                double count_anterior = 0;
+
+                for (int i = 0; i < casaEjemplo.PlanoCasa[1].Count; i++)
                 {
                     double count = 0;
-                    for(int j = 1; j <= i; j++)
-                    {
+                    int aux_j = 0;
+                    for (int j = 0; j <= i; j++)
+                    {   
+                        Console.WriteLine("count parte1 es: " + count);
                         count += casaEjemplo.PlanoCasa[1][j].MetrosCuadrados;
-                        Console.WriteLine("count es: " + count);
+                        Console.WriteLine("count parte2 es: " + count);
+
+
+
+                       aux_j= j;
                     }
+                      if (count_anterior>= 0 && count< habitacionEjemplo.MetrosCuadrados)
+                        {
+                            habitacionesAdyacentes.Add(casaEjemplo.PlanoCasa[1][aux_j]);
+                        }
+                    count_anterior = count;
                 }
-                    
+                return habitacionesAdyacentes;
+                
+                
                 }
+
+            else { return null; }
             }
         }
     }
-}

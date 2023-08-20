@@ -19,7 +19,7 @@ namespace Practica1CasaIntento3
         private int posicionFila;
         private int numeroHabitacion;
 
-        public Habitacion(String nombreHabitacion, double metroscuadradosHab, int posicionFilaHab, int numeroHab,Habitante propietarioHab =null)
+        public Habitacion(String nombreHabitacion, double metroscuadradosHab, int posicionFilaHab, int numeroHab, Habitante propietarioHab = null)
 
         {
             posicionFila = posicionFilaHab; //Esto representa la fila
@@ -39,6 +39,25 @@ namespace Practica1CasaIntento3
             }
         }
 
+        public double MetrosCuadrados
+        {
+            get { return metroscuadrados; }
+            set { metroscuadrados = value;}
+        }
+        public int PosicionFila
+        {
+            get { return posicionFila; }
+            set { posicionFila = value;}
+
+          
+        }
+
+        public int NumeroHabitacion
+        {
+            get { return numeroHabitacion; }
+            set { numeroHabitacion = value; }
+        }
+
 
         //Haciendo la representacion de las habitaciones
         public override string ToString()
@@ -47,11 +66,18 @@ namespace Practica1CasaIntento3
 
             for (int i = 0; i < metroscuadrados; i++)
             {
-                
 
-                representacion += "'' ";
+                if (i == metroscuadrados - 1)
+                {
+                    representacion += "*";
+                }
+                else
+                {
+                    representacion += "*  ";
+                }
+
             }
-
+            //Aqui muestra a las personas
             for (int j = 0; j < personas.Count; j++)
             {
                 representacion += personas[j].Nombre[0];

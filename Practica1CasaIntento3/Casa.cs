@@ -34,9 +34,13 @@ namespace Practica1CasaIntento3
 
             planoInicialCasa = new List<List<Habitacion>>();
 
-            String[] nombresRandom = { "Phol", "Daniela", "Angel", "Norberto", "Ermes", "Roger", "Magola","Esteban","Urnilgo","muaro" };
+            String[] nombresRandom = { 
+                "Phol", "Daniela", "Angel", "Norberto", "Ermes", 
+                "Roger", "Magola","Esteban","Urnilgo","muaro",
+                "Alice", "Bob", "Charlie", "David", "Emily",
+            "Fiona", "George", "Hannah", "Isaac", "Julia" };
 
-            String[] nombresHabitacionesRandom = {"Cocina","Sala","Baño","Cuarto1","Cuarto2","Cuarto3","Cuarto4","Cuarto5","Cuarto9"};
+            String[] nombresHabitacionesRandom = {"Cocina","Sala","Baño","Cuarto9"};
 
             int cont = 0;
             for (int i = 0; i < n; i++)
@@ -44,10 +48,11 @@ namespace Practica1CasaIntento3
                 List<Habitacion> filaHabitacion = new List<Habitacion>();
                 for (int j = 0; j < n; j++)
                 {
-                    Habitante habitanteAux = new Habitante(nombresRandom[cont]);
+                    Random random = new Random();
+                    Habitante habitanteAux = new Habitante(nombresRandom[cont] );
 
                     //Donde dice j+1 es porque representa el numero de la casa. Pero tener en cuenta que para las posiciones de la matriz tocaria restarle 1
-                    Habitacion nuevaHabitacion = new Habitacion(nombresHabitacionesRandom[cont],2,i,j+1,habitanteAux);
+                    Habitacion nuevaHabitacion = new Habitacion(nombresHabitacionesRandom[random.Next(nombresHabitacionesRandom.Length)],2,i,j+1,habitanteAux);
 
                     habitanteAux.HabitacionActual= nuevaHabitacion;
                     
@@ -93,9 +98,9 @@ namespace Practica1CasaIntento3
         }
         
         //Mientras tantos
-        public void AmpliarHabitacionCasa(int fila,int numeroHabitacion)
+        public void AmpliarHabitacionCasa(int fila,int numeroHabitacion,double aumento)
         {
-            planoCasa[fila-1][numeroHabitacion - 1].AmpliarHabitacion(2);
+            planoCasa[fila-1][numeroHabitacion - 1].AmpliarHabitacion(aumento);
         }
 
 
