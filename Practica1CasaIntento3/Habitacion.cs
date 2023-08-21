@@ -87,7 +87,7 @@ namespace Practica1CasaIntento3
         }
 
         public bool HayPersonas()
-        {   
+        {
 
             //Conditional operator
             // variable      //condicion         //? //si se cumple : si no se cumple

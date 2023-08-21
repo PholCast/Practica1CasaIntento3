@@ -12,7 +12,7 @@ namespace Practica1CasaIntento3
         protected bool ocupado;
         protected int tiempoOcupado;
 
-        public Remodelador(String nombreRem, Habitacion habActual, bool ocupadoRem, int tiempoOcupado)
+        public Remodelador(string nombreRem,Habitacion habActual,bool ocupadoRem,int tiempoOcupado)
         {
 
         }
