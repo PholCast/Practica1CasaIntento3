@@ -11,12 +11,13 @@ namespace Practica1CasaIntento3
         private string nombre;
         private bool estado;
         private double precio;
-
+        private double tamano;
         // Constructor de la clase que inicializa el estado aleatoriamente
-        public Objeto(string nombreProducto, double precioObjeto)
+        public Objeto(string nombreProducto, double precioObjeto,double tamanoObjeto)
         {
             nombre = nombreProducto;
             precio = precioObjeto;
+            tamano = tamanoObjeto;
 
             // Generar un número aleatorio (0 o 1) para establecer el estado
             Random random = new Random();
@@ -54,6 +55,12 @@ namespace Practica1CasaIntento3
         {
             get { return precio; }
             set { precio = value; }
+
+        }
+        public double Tamano
+        {
+            get { return tamano; }
+            set { tamano = value; }
 
         }
     }

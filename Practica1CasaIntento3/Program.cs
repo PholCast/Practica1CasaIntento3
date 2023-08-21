@@ -8,7 +8,8 @@ namespace Practica1CasaIntento3
     {
         static void Main(string[] args)
         {
-       
+            EmpresaRemodelaje.MostrarMenu();
+
             Casa casa1 = new Casa(4);
 
             casa1.MostrarPlanos();
