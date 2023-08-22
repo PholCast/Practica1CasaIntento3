@@ -60,12 +60,29 @@ namespace Practica1CasaIntento3
                 for (int j = 0; j < n; j++)
                 {
                     Random random = new Random();
-                    Habitante habitanteAux = new Habitante(nombresRandom[cont] );
+                    //random para ver si crea  una persona o no
+                    int opcionCrearpersona = random.Next(2);
+                    
+                    Habitante habitanteAux;
+                    if(opcionCrearpersona == 0)
+                    {
+                        habitanteAux = null;
+                    }
+
+                    else
+                    {
+                        habitanteAux = new Habitante(nombresRandom[cont]);
+                    }
+                    
+
 
                     //Donde dice j+1 es porque representa el numero de la casa. Pero tener en cuenta que para las posiciones de la matriz tocaria restarle 1
                     Habitacion nuevaHabitacion = new Habitacion(nombresHabitacionesRandom[random.Next(nombresHabitacionesRandom.Length)],20,i,j+1,habitanteAux);
 
-                    habitanteAux.HabitacionActual= nuevaHabitacion;
+                    if (habitanteAux != null)
+                    {
+                        habitanteAux.HabitacionActual = nuevaHabitacion;
+                    }
                     
                     filaHabitacion.Add(nuevaHabitacion); // Puedes inicializar con otros valores si lo deseas
                     cont++;            
@@ -151,7 +168,8 @@ namespace Practica1CasaIntento3
         //Mientras tantos
         public void AmpliarHabitacionCasa(int fila,int numeroHabitacion,double aumento)
         {
-            planoCasa[fila-1][numeroHabitacion - 1].AmpliarHabitacion(aumento);
+            planoCasa[fila][numeroHabitacion - 1].AmpliarHabitacion(aumento);
+            MostrarPlanos();
         }
         //Para calcular en donde empieza y termina una habitacion: [posicion inicio, posicion final]
         public double[] CalcularPosicionHabitacion(int posicionDeFila, int numeroDeHabitacion)

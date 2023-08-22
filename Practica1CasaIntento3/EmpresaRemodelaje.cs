@@ -19,8 +19,10 @@ namespace Practica1CasaIntento3
             { "6. Jarron", new List<double> {2000, 0.22 } },
         };
 
+        public static int num_trabajadores = 15;
 
-        private static int TrabajadoresDisponibles { get; set; }
+        public static int TrabajadoresDisponibles = 15;// { get; set; }
+
         // que es esto WTF
 
         /*public EmpresaRemodelaje(int trabajadoresIniciales, double tiempoInicial)

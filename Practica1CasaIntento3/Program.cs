@@ -10,9 +10,9 @@ namespace Practica1CasaIntento3
         {
 
             Casa casa1 = new Casa(4);
-           
 
             casa1.MostrarPlanos();
+            
             while (true)
             {
 

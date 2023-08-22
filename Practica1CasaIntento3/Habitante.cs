@@ -40,6 +40,8 @@ namespace Practica1CasaIntento3
 
         public static void SolicitarAmpliacionHabitacion(Casa casa)
         {
+            casa.MostrarPlanos();
+
             Console.Write("Ingrese el numero de fila en donde esta la habitacion para ampliar: ");
             int fila = Convert.ToInt32(Console.ReadLine());
 
@@ -51,8 +53,26 @@ namespace Practica1CasaIntento3
 
             if (fila >= 0 && fila < casa.PlanoCasa.Count)
             {
-                if (numeroHabitacion > 0 && numeroHabitacion < casa.PlanoCasa[fila].Count)
+                if (numeroHabitacion > 0 && numeroHabitacion-1 < casa.PlanoCasa[fila].Count)
                 {
+                    Habitacion habitacionAmpliar = casa.PlanoCasa[fila][numeroHabitacion-1];
+
+                    List<Habitacion> adyacentesHabitacionAmpliar = casa.CalcularAdyacentes(fila, numeroHabitacion);
+                    
+                    foreach (Habitacion habitacionAdyacente in adyacentesHabitacionAmpliar)
+                    {
+                        if (habitacionAdyacente.HayPersonas()==false)
+                        {
+                            
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error, para ampliar la habitacion no debe haber personas en las habitaciones adyacentes ");
+                            return;
+                            
+                        }
+                    }
+
                     if (aumento > 0)
                     {
                         Console.WriteLine($"está solicitando la ampliación de la habitación en la fila {fila}, número {numeroHabitacion}.");
