@@ -82,30 +82,29 @@ namespace Practica1CasaIntento3
             get { return intervencion_inicial_solicitada; }
             set { intervencion_inicial_solicitada = value; }
         }
-        public int[] BuscarPersona(string nombrePersona)
+        public Persona BuscarPersona(string nombrePersona)
         {
             foreach(List<Habitacion> fila  in planoCasa)
             {
                 foreach(Habitacion habitacion in fila)
-                {   int cont = 0;
+                {   //int cont = 0;
                     foreach (Persona persona in habitacion.Personas)
                     {
                         if (persona.Nombre[0].ToString() == nombrePersona && nombrePersona[0].ToString() != "¡")
                         {
                             Console.WriteLine("Has seleccionado a" + persona.Nombre);
-                            int[] datos_Persona = { habitacion.PosicionFila, habitacion.NumeroHabitacion,cont };
-                            return datos_Persona;
+
+                            return persona;
                         }
                         else if (nombrePersona[0] == '¡' && persona.Nombre[0].ToString() + persona.Nombre[1].ToString() == nombrePersona)
                             {
 
-                            Console.WriteLine("Has seleccionado a" + persona.Nombre);
-                            int[] datos_Persona = { habitacion.PosicionFila, habitacion.NumeroHabitacion, cont };
-                            return datos_Persona;
+                            Console.WriteLine("Has seleccionado al trabajador: " + persona.Nombre);
+                            return persona;
                         
 
                         }
-                        cont++; // Para que retorne en que posicion de la lista de personas de la habitacion está
+                       // cont++; // Para que retorne en que posicion de la lista de personas de la habitacion está
 
                        
                     }

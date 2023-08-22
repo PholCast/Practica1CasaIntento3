@@ -62,10 +62,10 @@ namespace Practica1CasaIntento3
                             Console.WriteLine("Elige el nombre de la persona que quieres mover que ves en el plano");
                             string letra = Console.ReadLine();
 
-                            int[] valores_posicion = casa1.BuscarPersona(letra);
+                            //int[] valores_posicion = casa1.BuscarPersona(letra);
+                            Persona persona_a_mover = casa1.BuscarPersona(letra);
 
-
-                            if (valores_posicion ==null)
+                            if (persona_a_mover ==null)
                             {
                                 Console.WriteLine("No hay ninguna persona llamada"+letra);
                             }
@@ -73,13 +73,12 @@ namespace Practica1CasaIntento3
                             {
 
                                 Console.Write("Elige el numero de la fila a la que quieres mover la persona: ");
-                                int fila = Convert.ToInt32(Console.ReadLine());
+                                int fila_mover = Convert.ToInt32(Console.ReadLine());
                                 Console.Write("\nElige el numero de la habitacion a la que quieres mover la persona");
-                                int numHabitacion = Convert.ToInt32(Console.ReadLine());
+                                int numHabitacion_mover = Convert.ToInt32(Console.ReadLine());
 
-                                //ayuda
-                                casa1.PlanoCasa[valores_posicion[0]][valores_posicion[1] - 1].Personas[valores_posicion[2]].mover(casa1.PlanoCasa[fila][numHabitacion-1],casa1);
-
+                                // HACER LA EXCEPCION PARA FUERA DEL RANGO
+                                persona_a_mover.mover(casa1.PlanoCasa[fila_mover][numHabitacion_mover-1], casa1);
                                 casa1.MostrarPlanos();
                             }
                             
