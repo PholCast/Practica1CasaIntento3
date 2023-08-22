@@ -11,8 +11,22 @@ namespace Practica1CasaIntento3
         protected String nombre;
         protected Habitacion habitacionActual;
 
-        public void mover(Habitacion hab)
+        public void mover(Habitacion hab, Casa casa)
         {
+            List<Habitacion> habAdyacentes = casa.CalcularAdyacentes(habitacionActual.PosicionFila, habitacionActual.NumeroHabitacion);
+
+            if (habAdyacentes.Contains(hab)){
+
+                habitacionActual.RemoverPersona(this);
+
+                habitacionActual = hab;
+
+                habitacionActual.AgregarPersona(this);
+            }
+            else
+            {
+                Console.WriteLine($"No puedes moverte a la habitacion en la fila {hab.PosicionFila} y numero de habitacion {hab.NumeroHabitacion} porque no es adyacente");
+            }
         }
 
         public String Nombre

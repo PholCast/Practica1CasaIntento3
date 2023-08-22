@@ -8,7 +8,7 @@ namespace Practica1CasaIntento3
 {
     public static class EmpresaRemodelaje
     {
-
+        
         public static Dictionary<string, List<double>> catalogo = new Dictionary<string, List<double>>
         {
             { "1. Silla", new List<double> {1000, 0.10 } },
@@ -21,7 +21,7 @@ namespace Practica1CasaIntento3
 
 
         private static int TrabajadoresDisponibles { get; set; }
-        private static double TiempoDisponible { get; set; }// que es esto WTF
+        // que es esto WTF
 
         /*public EmpresaRemodelaje(int trabajadoresIniciales, double tiempoInicial)
         {
@@ -115,7 +115,7 @@ namespace Practica1CasaIntento3
             return (int)Math.Ceiling(metrosCuadrados / 10);
         }
 
-        public static double Tiempo_DecorarHabitacion(int cantidadItems)
+        /*public static double Tiempo_DecorarHabitacion(int cantidadItems)
         {
             return 0.5 * cantidadItems;
         }
@@ -133,19 +133,21 @@ namespace Practica1CasaIntento3
         public static int Trabajadores_ArreglarHabitacion(int cantidadItems)
         {
             return cantidadItems; //???
-        }
+        }*/
 
-        public static void AgregarNuevaHabitacion(Casa casa, int fila, Habitacion habitacion)
+        public static void AgregarNuevaHabitacion(Casa casa,String nombreNuevaHab, int fila, double metros)
         {
-            double metrosCuadrados = habitacion.MetrosCuadrados;
+            Habitacion nueva_habitacion = new Habitacion(nombreNuevaHab, metros, fila, casa.DiccionarioFilas[fila]+1);
+
+            double metrosCuadrados = nueva_habitacion.MetrosCuadrados;
             int trabajadores = Trabajadores_AñadirNuevaHabitacion(metrosCuadrados);
             double tiempo = Tiempo_AñadirNuevaHabitacion(metrosCuadrados);
 
-            if (trabajadores <= TrabajadoresDisponibles && tiempo <= TiempoDisponible)
+            if (trabajadores <= TrabajadoresDisponibles)
             {
-                casa.AgregarNuevaHab(fila, habitacion);
+                casa.AgregarNuevaHab(fila, nueva_habitacion);
                 TrabajadoresDisponibles -= trabajadores;
-                TiempoDisponible -= tiempo;
+                
             }
             else
             {
@@ -155,21 +157,97 @@ namespace Practica1CasaIntento3
 
         public static void AmpliarHabitacion(Casa casa, int fila, int numeroHabitacion,double aumento)
         {
-            double metrosCuadrados = casa.PlanoCasa[fila - 1][numeroHabitacion - 1].MetrosCuadrados;
+            double metrosCuadrados = casa.PlanoCasa[fila][numeroHabitacion - 1].MetrosCuadrados;
             int trabajadores = Trabajadores_AmpliarHabitacion(metrosCuadrados);
             double tiempo = Tiempo_AmpliarHabitacion(metrosCuadrados);
 
-            if (trabajadores <= TrabajadoresDisponibles && tiempo <= TiempoDisponible)
+            if (trabajadores <= TrabajadoresDisponibles)
             {
                 casa.AmpliarHabitacionCasa(fila, numeroHabitacion, aumento);
                 TrabajadoresDisponibles -= trabajadores;
-                TiempoDisponible -= tiempo;
+                
             }
             else
             {
                 Console.WriteLine("No hay suficientes recursos disponibles para ampliar la habitación."); //WTF que hizo angel?
             }
         }
+
+
+        public static void RealizarIntervencionSolicitada(Casa casa, Habitante habitante, List<string> trabajosSolicitados)
+{
+    Console.WriteLine($"¿Desea realizar los cambios solicitados por {habitante.Nombre}? (Si/No)");
+    string respuesta = Console.ReadLine();
+
+    if (respuesta.Equals("Si", StringComparison.OrdinalIgnoreCase))
+    {
+        //Cambiamos el atributo para que no se pueda repetir la opcion de intervencion inicial
+        casa.Intervencion_inicial_solicitada = true;
+        foreach (string trabajo in trabajosSolicitados)
+        {
+            if (trabajo.Equals("Agregar habitacion", StringComparison.OrdinalIgnoreCase))
+            {
+                habitante.SolicitarHabitacionNueva(casa);
+            }
+            else if (trabajo.Equals("Ampliación de habitación", StringComparison.OrdinalIgnoreCase))
+            {
+                //habitante.SolicitarAmpliacionHabitacion(casa);
+                Habitante.SolicitarAmpliacionHabitacion(casa);
+                    }
+        }
+        Console.WriteLine("Los cambios solicitados han sido realizados.");
+    }
+    else
+    {
+        Console.WriteLine("Los cambios solicitados han sido cancelados.");
+    }
+}
+
+public static double CalcularCostoInicial(List<string> trabajos)
+{
+    double costoTotal = 0;
+
+    Dictionary<string, double> costosPorTrabajo = new Dictionary<string, double>
+{
+    { "Agregar habitacion", 200000},
+    { "Ampliación de habitación", 150000 },
+    { "Decoración de habitación", 80000 },
+    { "Arreglo en habitación", 120000 }
+};
+
+    foreach (string trabajo in trabajos)
+    {
+        if (costosPorTrabajo.ContainsKey(trabajo))
+        {
+            costoTotal += costosPorTrabajo[trabajo];
+        }
+    }
+
+    return costoTotal;
+}
+
+public static double CalcularTiempoTotalInicial(List<string> trabajos)
+{
+    double tiempoTotal = 0;
+
+    Dictionary<string, double> tiemposPorTrabajo = new Dictionary<string, double>
+{
+    { "Agregar habitacion", 3.0},
+    { "Ampliación de habitación", 2.0 },
+    { "Decoración de habitación", 1.0 },
+    { "Arreglo en habitación", 1.5 }
+};
+
+    foreach (string trabajo in trabajos)
+    {
+        if (tiemposPorTrabajo.ContainsKey(trabajo))
+        {
+            tiempoTotal += tiemposPorTrabajo[trabajo];
+        }
+    }
+
+    return tiempoTotal;
+}
 
     }
 }

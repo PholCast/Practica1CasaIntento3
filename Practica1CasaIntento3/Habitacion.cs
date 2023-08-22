@@ -11,13 +11,15 @@ namespace Practica1CasaIntento3
     {
         private String nombreHab;
 
-        private Habitante propietarioHabitacion { get; set; }
+        private Habitante habitanteFav { get; set; }
         private List<Objeto> objetos { get; set; }
         private double metroscuadrados;
         private List<Persona> personas { get; set; }
 
         private int posicionFila;
         private int numeroHabitacion;
+
+
 
         public Habitacion(String nombreHabitacion, double metroscuadradosHab, int posicionFilaHab, int numeroHab, Habitante propietarioHab = null)
 
@@ -26,30 +28,37 @@ namespace Practica1CasaIntento3
             numeroHabitacion = numeroHab;   // Esto la columna o numero de la casa contando de izquierda a derecha
 
             nombreHab = nombreHabitacion;
-            propietarioHabitacion = propietarioHab;
+            habitanteFav = propietarioHab;
             objetos = new List<Objeto>();
             metroscuadrados = metroscuadradosHab;
             personas = new List<Persona>(); //definir bien para que cuando se crea inicialmente la casa ya esté la persona.
 
 
             //Si le pasan al propietario entonces se agrega a las personas que estan en dicha habitación
-            if (propietarioHabitacion != null)
+            if (habitanteFav != null)
             {
-                personas.Add(propietarioHabitacion);
+                personas.Add(habitanteFav);
             }
         }
 
         public double MetrosCuadrados
         {
             get { return metroscuadrados; }
-            set { metroscuadrados = value;}
+            set { metroscuadrados = value; }
         }
         public int PosicionFila
         {
             get { return posicionFila; }
-            set { posicionFila = value;}
+            set { posicionFila = value; }
 
-          
+
+        }
+        public List<Persona> Personas
+        {
+            get { return personas; }
+            set { personas = value; }
+
+
         }
 
         public int NumeroHabitacion
@@ -103,6 +112,17 @@ namespace Practica1CasaIntento3
         public void AmpliarHabitacion(double metros)
         {
             metroscuadrados += metros;
+        }
+        public void RemoverPersona(Persona persona)
+        {
+            personas.Remove(persona);
+            Console.WriteLine($"{persona.Nombre} salio de {nombreHab}");
+        }
+
+        public void AgregarPersona(Persona persona)
+        {
+            personas.Add(persona);
+            Console.WriteLine($"{persona.Nombre} entra a {nombreHab}");
         }
     }
 }      

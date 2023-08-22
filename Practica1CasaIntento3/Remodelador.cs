@@ -14,7 +14,7 @@ namespace Practica1CasaIntento3
 
         public Remodelador(string nombreRem,Habitacion habActual,bool ocupadoRem,int tiempoOcupado)
         {
-
+            nombre = "¡"+nombreRem+"!";
         }
 
         public bool Ocupado

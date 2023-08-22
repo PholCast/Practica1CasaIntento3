@@ -11,12 +11,16 @@ namespace Practica1CasaIntento3
     {
         private List<List<Habitacion>> planoInicialCasa;
         private List<List<Habitacion>> planoCasa { get; set; }
+
+        //Diccionario filas tiene como clave la fila y como valor cuantas habitaciones tiene
         private Dictionary<int, int> diccionarioFilas;
-       
+        private bool intervencion_inicial_solicitada;
 
 
         public Casa(int n)
-        {
+        {   
+
+            intervencion_inicial_solicitada = false;
             diccionarioFilas = new Dictionary<int, int>();
             for(int t=1; t<=n; t++)
             {   
@@ -34,13 +38,20 @@ namespace Practica1CasaIntento3
 
             planoInicialCasa = new List<List<Habitacion>>();
 
-            String[] nombresRandom = { 
-                "Phol", "Daniela", "Angel", "Norberto", "Ermes", 
-                "Roger", "Magola","Esteban","Urnilgo","muaro",
-                "Alice", "Bob", "Charlie", "David", "Emily",
-            "Fiona", "George", "Hannah", "Isaac", "Julia" };
+            String[] nombresRandom = 
+                {
+                    "Ana", "Beto", "Carlos", "David", "Elena", "Fernando",
+                    "Gabriela", "Hugo", "Irene", "Juan", "Karen", "Luis",
+                    "Maria", "Nacho", "Olga", "Pedro", "Quincy", "Rosa",
+                    "Sofia", "Tomas", "Ursula", "Victor", "Wendy", "Xavier",
+                    "Yara", "Zoe","aaron", "brian", "carol", "david", "emily", "frank",
+                    "gina", "harry", "ian", "julie", "kyle", "lisa",
+                    "mike", "nina", "oscar", "paul", "quincy", "rachel",
+                    "steve", "tina", "uriel", "victor", "wanda", "xander",
+                    "yvonne", "zane"
+                };
 
-            String[] nombresHabitacionesRandom = {"Cocina","Sala","Baño","Cuarto9"};
+            String[] nombresHabitacionesRandom = {"Cocina","Sala","Baño","Cuarto1","Cuarto"};
 
             int cont = 0;
             for (int i = 0; i < n; i++)
@@ -66,23 +77,64 @@ namespace Practica1CasaIntento3
 
         }
 
+        public bool Intervencion_inicial_solicitada
+        {
+            get { return intervencion_inicial_solicitada; }
+            set { intervencion_inicial_solicitada = value; }
+        }
+        public int[] BuscarPersona(string nombrePersona)
+        {
+            foreach(List<Habitacion> fila  in planoCasa)
+            {
+                foreach(Habitacion habitacion in fila)
+                {   int cont = 0;
+                    foreach (Persona persona in habitacion.Personas)
+                    {
+                        if (persona.Nombre[0].ToString() == nombrePersona && nombrePersona[0].ToString() != "¡")
+                        {
+                            Console.WriteLine("Has seleccionado a" + persona.Nombre);
+                            int[] datos_Persona = { habitacion.PosicionFila, habitacion.NumeroHabitacion,cont };
+                            return datos_Persona;
+                        }
+                        else if (nombrePersona[0] == '¡' && persona.Nombre[0].ToString() + persona.Nombre[1].ToString() == nombrePersona)
+                            {
+
+                            Console.WriteLine("Has seleccionado a" + persona.Nombre);
+                            int[] datos_Persona = { habitacion.PosicionFila, habitacion.NumeroHabitacion, cont };
+                            return datos_Persona;
+                        
+
+                        }
+                        cont++; // Para que retorne en que posicion de la lista de personas de la habitacion está
+
+                       
+                    }
+                }
+            }
+            return null;
+        }
+
+
+
+
         public List<List<Habitacion>> PlanoCasa
         {
             get {return  planoCasa;}
             set { planoCasa = value;}
         }
         public void MostrarPlanos()
-        {
+        {   int cont = 0;
             foreach (List<Habitacion> fila in planoCasa)
             
             {
-                Console.Write("[");
+                Console.Write($"{cont} [");
                 foreach (Habitacion elemento in fila)
                 {
                     Console.Write($"{elemento}");
                 }
                 Console.Write("]");
                 Console.WriteLine();
+                cont++;
             }
             Console.WriteLine();
             Console.ReadKey();
@@ -102,7 +154,7 @@ namespace Practica1CasaIntento3
         {
             planoCasa[fila-1][numeroHabitacion - 1].AmpliarHabitacion(aumento);
         }
-        //Para calcular en donde empieza y termina una habitacion
+        //Para calcular en donde empieza y termina una habitacion: [posicion inicio, posicion final]
         public double[] CalcularPosicionHabitacion(int posicionDeFila, int numeroDeHabitacion)
         {
             //representa la verdadera posicion en la matriz
@@ -123,6 +175,13 @@ namespace Practica1CasaIntento3
             return posiciones;
         }
 
+
+        public Dictionary<int,int> DiccionarioFilas
+        {
+            get { return diccionarioFilas; }
+            set { diccionarioFilas = value;}
+        }
+
         public List<Habitacion> CalcularAdyacentes(int fila, int numHab)
         {
             //Esta variable guarda la posicion inicial y la final de la habitacion que queremos analizar
@@ -139,7 +198,7 @@ namespace Practica1CasaIntento3
             }
             catch (ArgumentOutOfRangeException) 
             {
-                Console.WriteLine("no hay habitacion a la izquierda");
+                //Console.WriteLine("no hay habitacion a la izquierda");
             }
 
             //Derecha
@@ -150,7 +209,7 @@ namespace Practica1CasaIntento3
             }
             catch (ArgumentOutOfRangeException)
             {
-                Console.WriteLine("no hay habitacion a la derecha");
+                //Console.WriteLine("no hay habitacion a la derecha");
             }
 
             //Fila de arriba
@@ -180,7 +239,7 @@ namespace Practica1CasaIntento3
             }
             catch (ArgumentOutOfRangeException)
             {
-                Console.WriteLine("No hay habitacion de arriba");
+                //Console.WriteLine("No hay habitacion de arriba");
             }
             //Fila de abajo
             try
@@ -211,7 +270,7 @@ namespace Practica1CasaIntento3
             catch (ArgumentOutOfRangeException ex)
             {
 
-               Console.WriteLine("Se capturó una excepción de índice fuera de rango abajo: " + ex.Message);
+               //Console.WriteLine("Se capturó una excepción de índice fuera de rango abajo: " + ex.Message);
                 
             }
 

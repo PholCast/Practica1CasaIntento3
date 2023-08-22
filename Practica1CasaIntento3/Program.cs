@@ -8,9 +8,107 @@ namespace Practica1CasaIntento3
     {
         static void Main(string[] args)
         {
-           // EmpresaRemodelaje.MostrarMenu();
 
             Casa casa1 = new Casa(4);
+           
+
+            casa1.MostrarPlanos();
+            while (true)
+            {
+
+
+                int opcionMain;
+                do
+                {   
+                    Console.WriteLine("BIENVENIDO AL SOFTWARE CLEAN CODE\n" +
+                        "\n1.Solicitar intervencion inicial" +
+                        "\n2.Agregar una nueva habitacion" +
+                        "\n3.Ampliar una habitacion" +
+                        "\n4.Decorar Habitacion" +
+                        "\n5.Arreglar item de una habitacion" +
+                        "\n6.Mover un habitante" +
+                        "\n7.Salir\nELIGE UNA OPCION:");
+
+                    opcionMain = Convert.ToInt32(Console.ReadLine());
+
+                    switch (opcionMain)
+                    {
+                        case 1:
+                            if(casa1.Intervencion_inicial_solicitada == true)
+                            {
+                                Console.WriteLine("Error, la solicitud intervencion inicial de la casa ya fue realizada");
+                            }
+                            else{
+                                
+                                //
+
+
+                            }
+                            break;
+                        case 2:
+                            //
+                              break;
+                        case 3:
+                            Habitante.SolicitarAmpliacionHabitacion(casa1);
+                            break;
+                        case 4:
+                            //
+                            break;
+                        case 5:
+                            //
+                            break;
+                        case 6:
+
+                            Console.WriteLine("Elige el nombre de la persona que quieres mover que ves en el plano");
+                            string letra = Console.ReadLine();
+
+                            int[] valores_posicion = casa1.BuscarPersona(letra);
+
+
+                            if (valores_posicion ==null)
+                            {
+                                Console.WriteLine("No hay ninguna persona llamada"+letra);
+                            }
+                            else
+                            {
+
+                                Console.Write("Elige el numero de la fila a la que quieres mover la persona: ");
+                                int fila = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("\nElige el numero de la habitacion a la que quieres mover la persona");
+                                int numHabitacion = Convert.ToInt32(Console.ReadLine());
+
+                                //ayuda
+                                casa1.PlanoCasa[valores_posicion[0]][valores_posicion[1] - 1].Personas[valores_posicion[2]].mover(casa1.PlanoCasa[fila][numHabitacion-1],casa1);
+
+                                casa1.MostrarPlanos();
+                            }
+                            
+
+                            
+
+                            break;
+                        case 7:
+                            Console.WriteLine("Gracias por usar nuestro Software :D");
+                            break;
+                        default:
+                            Console.WriteLine("Error, ingresa una opcion valida entre 1 y 7");
+                            break;
+
+                    }
+
+
+                } while (opcionMain != 7);
+
+                if(opcionMain == 7)
+                {
+                    break;
+                }
+            }
+
+
+           // EmpresaRemodelaje.MostrarMenu();
+
+            //Casa casa1 = new Casa(4);
 
             casa1.MostrarPlanos();
 
@@ -19,8 +117,7 @@ namespace Practica1CasaIntento3
 
             Habitacion habitacion2 = new Habitacion("Cuarto2", 5, 0, 5, new Habitante("G"));
 
-            
-
+           
             casa1.AgregarNuevaHab(1, habitacion1);
             casa1.AgregarNuevaHab(1, habitacion2);
 
@@ -33,15 +130,12 @@ namespace Practica1CasaIntento3
 
             casa1.MostrarPlanos();
 
-            Console.WriteLine("Metros cuadrados de  p: " + casa1.PlanoCasa[0][0].MetrosCuadrados);
+          
 
 
-            double[] array_ejemplo = casa1.CalcularPosicionHabitacion(0, 2);
+            
 
-            foreach(double num in array_ejemplo)
-            {
-                Console.WriteLine($"Ejemplo posiciones:{ num}");
-            }
+            
 
             //Probando adyacentes
 
@@ -51,6 +145,10 @@ namespace Practica1CasaIntento3
             {
                 Console.WriteLine(element +" "+ element.MetrosCuadrados);
             }
+
+
+            casa1.PlanoCasa[2][1].Personas[0].mover(casa1.PlanoCasa[0][3], casa1);
+            casa1.MostrarPlanos();
         }
 
         

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,77 +9,77 @@ namespace Practica1CasaIntento3
     public class Habitante : Persona
     {
         private String habitacionFav;
-        public Habitante(string nombreHabitante,Habitacion habitacionAct=null, string habitacionfav=null) {
-
-        habitacionFav = habitacionfav;
-        nombre = nombreHabitante;
-        habitacionActual=habitacionAct;
-
-
+        public Habitante(string nombreHabitante, Habitacion habitacionAct = null, string habitacionfav = null)
+        {
+            habitacionFav = habitacionfav;
+            nombre = nombreHabitante;
+            habitacionActual = habitacionAct;
         }
 
-        public void SolicitarHabitacionNueva(Casa casa, int fila, Habitacion habitacionNueva)
+        public void SolicitarHabitacionNueva(Casa casa)//int fila, double tamano)   //(Casa casa, Habitacion habitacionNueva)
         {
-            Console.WriteLine($"{nombre} está solicitando una nueva habitación en la fila {fila}.");
-            EmpresaRemodelaje.AgregarNuevaHabitacion(casa, fila, habitacionNueva);// Tal vez
-        }
+            Console.Write("Ingrese el nombre de la habitacion nueva: ");
+            String nombre_nueva_habitacion = Console.ReadLine();
 
-        public void SolicitarAmpliacionHabitacion(Casa casa, int fila, int numeroHabitacion,double aumento)
-        {
-            Console.WriteLine($"{nombre} está solicitando la ampliación de la habitación en la fila {fila}, número {numeroHabitacion}.");
-            EmpresaRemodelaje.AmpliarHabitacion(casa, fila, numeroHabitacion,aumento); //Tal vez
-        }
+            Console.Write("Ingrese el número de fila en la casa que quiere agregar la habitacion: ");
+            int fila = Convert.ToInt32(Console.ReadLine());
 
-        private double CalcularCostoInicial(List<string> trabajos)
-        {
-            double costoTotal = 0;
+            Console.Write("Ingrese el tamaño de la habitacion (por favor un multiplo de 5) :(  :");
+            double metros = Convert.ToDouble(Console.ReadLine());
 
-            Dictionary<string, double> costosPorTrabajo = new Dictionary<string, double>
-        {
-            { "Agregar habitacion", 200000},
-            { "Ampliación de habitación", 150000 },
-            { "Decoración de habitación", 80000 },
-            { "Arreglo en habitación", 120000 }
-        };
-
-            foreach (string trabajo in trabajos)
+            if (fila >= 0 && fila < casa.PlanoCasa.Count)
             {
-                if (costosPorTrabajo.ContainsKey(trabajo))
+                Console.WriteLine($"{nombre} está solicitando una nueva habitación en la fila {fila}.");
+                EmpresaRemodelaje.AgregarNuevaHabitacion(casa, nombre_nueva_habitacion, fila, metros);
+            }
+            else
+            {
+                Console.WriteLine("Número de fila no válido.");
+            }
+        }
+
+        public static void SolicitarAmpliacionHabitacion(Casa casa)
+        {
+            Console.Write("Ingrese el numero de fila en donde esta la habitacion para ampliar: ");
+            int fila = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Ingrese el numero de habitacion para ampliar: ");
+            int numeroHabitacion = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Cuanto aumento quiere en la habitacion (por favor un multiplo de 5) :(  : ");
+            double aumento = Convert.ToDouble(Console.ReadLine());
+
+            if (fila >= 0 && fila < casa.PlanoCasa.Count)
+            {
+                if (numeroHabitacion > 0 && numeroHabitacion < casa.PlanoCasa[fila].Count)
                 {
-                    costoTotal += costosPorTrabajo[trabajo];
+                    if (aumento > 0)
+                    {
+                        Console.WriteLine($"está solicitando la ampliación de la habitación en la fila {fila}, número {numeroHabitacion}.");
+                        EmpresaRemodelaje.AmpliarHabitacion(casa, fila, numeroHabitacion, aumento);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Aumento Invalido");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Numero de habitacion Invalido");
                 }
             }
-
-            return costoTotal;
-        }
-
-        private double CalcularTiempoTotalInicial(List<string> trabajos)
-        {
-            double tiempoTotal = 0;
-
-            Dictionary<string, double> tiemposPorTrabajo = new Dictionary<string, double>
-        {
-            { "Agregar habitacion", 3.0},
-            { "Ampliación de habitación", 2.0 },
-            { "Decoración de habitación", 1.0 },
-            { "Arreglo en habitación", 1.5 }
-        };
-
-            foreach (string trabajo in trabajos)
+            else
             {
-                if (tiemposPorTrabajo.ContainsKey(trabajo))
-                {
-                    tiempoTotal += tiemposPorTrabajo[trabajo];
-                }
+                Console.WriteLine("Numero de fila invalido");
             }
-
-            return tiempoTotal;
         }
-
-        public void SolicitarIntervencionInicial(Casa casa, List<string> trabajos)
+        
+        public void SolicitarIntervencionInicial(Casa casa)
         {
-            double costoTotalInicial = CalcularCostoInicial(trabajos);
-            double tiempoTotalInicial = CalcularTiempoTotalInicial(trabajos);
+            List<string> trabajos = IngresarServicios();
+
+            double costoTotalInicial = EmpresaRemodelaje.CalcularCostoInicial(trabajos);
+            double tiempoTotalInicial = EmpresaRemodelaje.CalcularTiempoTotalInicial(trabajos);
 
             int trabajadoresRequeridos = (int)Math.Ceiling(tiempoTotalInicial);
             double costoTrabajadores = trabajadoresRequeridos * 40000;
@@ -95,10 +94,26 @@ namespace Practica1CasaIntento3
             Console.WriteLine($"Tiempo requerido: {tiempoTotalInicial} horas");
             Console.WriteLine($"Número de trabajadores requeridos: {trabajadoresRequeridos}");
 
-           // EmpresaRemodelaje.RealizarIntervencionSolicitada(casa, this, trabajos);//Tal vez
+            EmpresaRemodelaje.RealizarIntervencionSolicitada(casa, this, trabajos);
+        }
+
+        public static List<string> IngresarServicios()
+        {
+            List<string> trabajos = new List<string>();
+
+            Console.WriteLine("Ingrese los servicios solicitados (ingrese 'fin' para finalizar):");
+            while (true)
+            {
+                string trabajo = Console.ReadLine();
+                if (trabajo.ToLower() == "fin")
+                {
+                    break;
+                }
+                trabajos.Add(trabajo);
+            }
+
+            return trabajos;
         }
     }
-
-
 
 }
