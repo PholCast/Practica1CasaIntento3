@@ -56,7 +56,11 @@ namespace Practica1CasaIntento3
                 if (numeroHabitacion > 0 && numeroHabitacion-1 < casa.PlanoCasa[fila].Count)
                 {
                     Habitacion habitacionAmpliar = casa.PlanoCasa[fila][numeroHabitacion-1];
-
+                    if (habitacionAmpliar.HayPersonas() == true)
+                    {
+                        Console.WriteLine("Error, para ampliar la habitacion deben salir las personas de la habitacion y tampoco pueden estar en habitaciones adyacentes");
+                        return;
+                    }
                     List<Habitacion> adyacentesHabitacionAmpliar = casa.CalcularAdyacentes(fila, numeroHabitacion);
                     
 

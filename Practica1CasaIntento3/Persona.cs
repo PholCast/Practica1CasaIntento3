@@ -13,6 +13,13 @@ namespace Practica1CasaIntento3
 
         public void mover(Habitacion hab, Casa casa)
         {
+            if(hab == habitacionActual)
+            {
+                Console.WriteLine("Error, Ya estás en esa habitacion");
+                return;
+            }
+
+
             List<Habitacion> habAdyacentes = casa.CalcularAdyacentes(habitacionActual.PosicionFila, habitacionActual.NumeroHabitacion);
 
             if (habAdyacentes.Contains(hab)){
