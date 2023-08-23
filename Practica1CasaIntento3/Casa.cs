@@ -10,17 +10,20 @@ namespace Practica1CasaIntento3
     public class Casa
     {
         private List<List<Habitacion>> planoInicialCasa;
-        private List<List<Habitacion>> planoCasa { get; set; }
+        private List<List<Habitacion>> planoCasa { get; set; } //Este es el plano que va cambiando
 
         //Diccionario filas tiene como clave la fila y como valor cuantas habitaciones tiene
         private Dictionary<int, int> diccionarioFilas;
-        private bool intervencion_inicial_solicitada;
+        private bool intervencion_inicial_solicitada; //Lo usaremos para que no se pueda hacer dos veces la intervencion inicial
 
 
         public Casa(int n)
         {   
 
-            intervencion_inicial_solicitada = false;
+            intervencion_inicial_solicitada = false; //Cuando se haga la intervencion inicial cambia a true
+
+            //Creando inicialmente el diccionario de las filas con las n filas y n habitaciones.
+
             diccionarioFilas = new Dictionary<int, int>();
             for(int t=0; t<n; t++)
             {   
@@ -36,7 +39,10 @@ namespace Practica1CasaIntento3
 
 
 
+            //Creamos el plano
             planoInicialCasa = new List<List<Habitacion>>();
+
+
 
             String[] nombresRandom = 
                 {
@@ -51,46 +57,62 @@ namespace Practica1CasaIntento3
                     "yvonne", "zane"
                 };
 
+
+            //Hay que mirar que nombre le ponemos a todas las habitaciones
             String[] nombresHabitacionesRandom = {"Cocina","Sala","Baño","Cuarto1","Cuarto"};
 
             int cont = 0;
+
+            // i recorre filas
             for (int i = 0; i < n; i++)
             {
+                //Se crea una fila
                 List<Habitacion> filaHabitacion = new List<Habitacion>();
+
+                //el ciclo de j va creando habitaciones para la fila
                 for (int j = 0; j < n; j++)
                 {
+
                     Random random = new Random();
                     //random para ver si crea  una persona o no
                     int opcionCrearpersona = random.Next(2);
                     
                     Habitante habitanteAux;
+
+                    //si da 0 no se crea la persona
                     if(opcionCrearpersona == 0)
                     {
                         habitanteAux = null;
                     }
 
                     else
-                    {
+                    {   //si no si se crea la persona
                         habitanteAux = new Habitante(nombresRandom[cont]);
                     }
                     
 
 
-                    //Donde dice j+1 es porque representa el numero de la casa. Pero tener en cuenta que para las posiciones de la matriz tocaria restarle 1
+                    //Donde dice j+1 es porque representa el numero de la habitacion. Pero tener en cuenta que para las posiciones de la matriz tocaria restarle 1
                     Habitacion nuevaHabitacion = new Habitacion(nombresHabitacionesRandom[random.Next(nombresHabitacionesRandom.Length)],20,i,j+1,habitanteAux);
 
+
+                    //Si si fue creada la persona, entonces su habitacion actual sera la que se acaba de crear
                     if (habitanteAux != null)
                     {
                         habitanteAux.HabitacionActual = nuevaHabitacion;
                     }
                     
+                    //agregamos la habitacion al plano
                     filaHabitacion.Add(nuevaHabitacion); // Puedes inicializar con otros valores si lo deseas
-                    cont++;            
+
+                    cont++;//cont solo es para ponerle los nombres a las personas     
                 }
-                planoInicialCasa.Add(filaHabitacion);
+                planoInicialCasa.Add(filaHabitacion); //Cuando ya se agregaron las habitaciones a la fila, se agrega la fila al plano.
+                //Y ya de aqui se repite todo hasta tener n filas y n habitaciones
             }
             //planoCasa = planoInicialCasa;
-            planoCasa = planoInicialCasa.Select(fila => fila.ToList()).ToList();
+            planoCasa = planoInicialCasa.Select(fila => fila.ToList()).ToList(); //Para hacer una copia del plano, y asi luego poder mostrar
+            //el plano inicial y el final
 
         }
 
