@@ -112,13 +112,15 @@ namespace Practica1CasaIntento3
             casa1.MostrarPlanos();
 
             
-            Habitacion habitacion1 = new Habitacion("Cuarto",5,0,4, new Habitante("Phol"));
+            Habitacion habitacion1 = new Habitacion("GIMNASIO",5,0,4);
 
-            Habitacion habitacion2 = new Habitacion("Cuarto2", 5, 0, 5, new Habitante("G"));
+            //Habitacion habitacion2 = new Habitacion("Cuarto2", 5, 0, 5, new Habitante("G"));
+            habitacion1.AgregarPersona(new Habitante("CAMILO"));
 
+            Console.WriteLine($"Habitante favorito de {habitacion1.NombreHab} es { habitacion1.HabitanteFav.Nombre}");
            
             casa1.AgregarNuevaHab(1, habitacion1);
-            casa1.AgregarNuevaHab(1, habitacion2);
+            //casa1.AgregarNuevaHab(1, habitacion2);
 
             casa1.MostrarPlanos();
 

@@ -8,13 +8,25 @@ namespace Practica1CasaIntento3
 {
     public class Habitante : Persona
     {
-        private String habitacionFav;
-        public Habitante(string nombreHabitante, Habitacion habitacionAct = null, string habitacionfav = null)
+        private Habitacion habitacionFav;
+        public Habitante(string nombreHabitante, Habitacion habitacionAct = null, Habitacion habitacionfav = null)
         {
             habitacionFav = habitacionfav;
             nombre = nombreHabitante;
             habitacionActual = habitacionAct;
         }
+
+
+
+        public Habitacion HabitacionFav
+        {
+            get { return habitacionFav; }
+            set {
+                Console.WriteLine($"{nombre} Tu habitacion Favorita es: {value.NombreHab}");
+                    habitacionFav = value; }
+        }
+
+
         //nueva habitacion y ampliar habitacion son estaticos para no tener que hacer que lo pida alguien en especifico
         public static void SolicitarHabitacionNueva(Casa casa)
         {
@@ -117,12 +129,12 @@ namespace Practica1CasaIntento3
                 }
                 else
                 {
-                    Console.WriteLine("Numero de habitacion invalido")
+                    Console.WriteLine("Numero de habitacion invalido");
                 }
             }
             else
             {
-                Console.WriteLine("Numero de fila invalido")
+                Console.WriteLine("Numero de fila invalido");
             }
         }
         

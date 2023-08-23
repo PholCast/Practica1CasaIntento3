@@ -10,6 +10,8 @@ namespace Practica1CasaIntento3
     public class Habitacion
     {
         private String nombreHab;
+        private bool tieneFavorito=false;
+
 
         private Habitante habitanteFav { get; set; }
         private List<Objeto> objetos { get; set; }
@@ -24,6 +26,7 @@ namespace Practica1CasaIntento3
         public Habitacion(String nombreHabitacion, double metroscuadradosHab, int posicionFilaHab, int numeroHab, Habitante propietarioHab = null)
 
         {
+            
             posicionFila = posicionFilaHab; //Esto representa la fila
             numeroHabitacion = numeroHab;   // Esto la columna o numero de la casa contando de izquierda a derecha
 
@@ -37,7 +40,9 @@ namespace Practica1CasaIntento3
             //Si le pasan al propietario entonces se agrega a las personas que estan en dicha habitación
             if (habitanteFav != null)
             {
+                tieneFavorito = true;
                 personas.Add(habitanteFav);
+                habitanteFav.HabitacionFav = this;
             }
         }
         public Habitante HabitanteFav
@@ -134,8 +139,25 @@ namespace Practica1CasaIntento3
 
         public void AgregarPersona(Persona persona)
         {
+            if(tieneFavorito == false && persona is Habitante)
+            {
+
+                //el tipo de dato no funcionaba porque entra como tipo persona
+                //entonces toca convertirla a tipo Habitante
+                Habitante convertirHabitanteFav = persona as Habitante;
+                tieneFavorito = true;
+                habitanteFav = convertirHabitanteFav;
+                habitanteFav.HabitacionFav = this;
+                
+            }
             personas.Add(persona);
             Console.WriteLine($"{persona.Nombre} entra a {nombreHab}");
+        }
+
+        public string NombreHab
+        {
+            get { return nombreHab; }
+            set { nombreHab = value;}
         }
     }
 }      
