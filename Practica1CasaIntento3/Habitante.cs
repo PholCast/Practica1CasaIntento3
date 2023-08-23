@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -97,6 +97,32 @@ namespace Practica1CasaIntento3
             else
             {
                 Console.WriteLine("Numero de fila invalido");
+            }
+        }
+
+        public static void SolicitarDecorarHabitacion(Casa casa)
+        {
+            casa.MostrarPlanos();
+            Console.Write("Ingrese el numero de fila donde esta la habitacion a decorar: ");
+            int fila = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Ingrese el numero de habitacion que desea decorar: ");
+            int numeroHabitacion = Convert.ToInt32(Console.ReadLine());
+
+            if (fila >= 0 && fila < casa.PlanoCasa.Count)
+            {
+                if (numeroHabitacion > 0 && numeroHabitacion < casa.PlanoCasa[fila].Count)
+                {
+                    EmpresaRemodelaje.MostrarMenu(casa, casa.PlanoCasa[fila][numeroHabitacion - 1]);
+                }
+                else
+                {
+                    Console.WriteLine("Numero de habitacion invalido")
+                }
+            }
+            else
+            {
+                Console.WriteLine("Numero de fila invalido")
             }
         }
         

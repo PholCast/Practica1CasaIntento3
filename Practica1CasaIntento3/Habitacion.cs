@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -39,6 +39,11 @@ namespace Practica1CasaIntento3
             {
                 personas.Add(habitanteFav);
             }
+        }
+        public Habitante HabitanteFav
+        {
+            get { return habitanteFav; }
+            set { habitanteFav = value; }
         }
 
         public double MetrosCuadrados
@@ -94,7 +99,15 @@ namespace Practica1CasaIntento3
             representacion += "]";
             return representacion;
         }
-
+        public double CalcularEspacioObjetos()
+        {
+            double EspacioObjetos = 0;
+            foreach (Objeto objeto in objetos)
+            {
+                EspacioObjetos += objeto.Tamano;
+            }
+            return EspacioObjetos;
+        }
         public bool HayPersonas()
         {
 

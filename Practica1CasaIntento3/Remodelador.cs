@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +28,11 @@ namespace Practica1CasaIntento3
         {
             get { return tiempoOcupado; }
             set { tiempoOcupado = value; }
+
+        }
+
+        public void AgregarObjetos(Casa casa, Habitacion habDecorar, List<Objeto> listaObjetos)
+        {
 
         }
 
