@@ -22,7 +22,7 @@ namespace Practica1CasaIntento3
 
             intervencion_inicial_solicitada = false;
             diccionarioFilas = new Dictionary<int, int>();
-            for(int t=1; t<=n; t++)
+            for(int t=0; t<n; t++)
             {   
                 diccionarioFilas.Add(t, n);
             }
@@ -156,11 +156,18 @@ namespace Practica1CasaIntento3
             Console.ReadKey();
         }
 
+
+        public void RemoverNuevaHab(int fila, Habitacion habitacionARemover)
+        {
+            diccionarioFilas[fila] -= 1;
+            planoCasa[fila].Remove(habitacionARemover);
+        }
+
         public void AgregarNuevaHab(int fila, Habitacion habCrear)
         {
             diccionarioFilas[fila] += 1;
 
-            planoCasa[fila-1].Add(habCrear);
+            planoCasa[fila].Add(habCrear);
 
             //Console.WriteLine("");
         }

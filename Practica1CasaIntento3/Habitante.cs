@@ -15,8 +15,8 @@ namespace Practica1CasaIntento3
             nombre = nombreHabitante;
             habitacionActual = habitacionAct;
         }
-
-        public void SolicitarHabitacionNueva(Casa casa)//int fila, double tamano)   //(Casa casa, Habitacion habitacionNueva)
+        //nueva habitacion y ampliar habitacion son estaticos para no tener que hacer que lo pida alguien en especifico
+        public static void SolicitarHabitacionNueva(Casa casa)
         {
             Console.Write("Ingrese el nombre de la habitacion nueva: ");
             String nombre_nueva_habitacion = Console.ReadLine();
@@ -29,7 +29,7 @@ namespace Practica1CasaIntento3
 
             if (fila >= 0 && fila < casa.PlanoCasa.Count)
             {
-                Console.WriteLine($"{nombre} está solicitando una nueva habitación en la fila {fila}.");
+                Console.WriteLine($"solicitando una nueva habitación en la fila {fila}.");
                 EmpresaRemodelaje.AgregarNuevaHabitacion(casa, nombre_nueva_habitacion, fila, metros);
             }
             else
@@ -59,6 +59,8 @@ namespace Practica1CasaIntento3
 
                     List<Habitacion> adyacentesHabitacionAmpliar = casa.CalcularAdyacentes(fila, numeroHabitacion);
                     
+
+                    //Volver esto una funcion 
                     foreach (Habitacion habitacionAdyacente in adyacentesHabitacionAmpliar)
                     {
                         if (habitacionAdyacente.HayPersonas()==false)

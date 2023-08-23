@@ -46,8 +46,8 @@ namespace Practica1CasaIntento3
                             }
                             break;
                         case 2:
-                            //
-                              break;
+                            Habitante.SolicitarHabitacionNueva(casa1);
+                            break;
                         case 3:
                             Habitante.SolicitarAmpliacionHabitacion(casa1);
                             break;

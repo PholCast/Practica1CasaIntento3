@@ -140,6 +140,10 @@ namespace Practica1CasaIntento3
         public static void AgregarNuevaHabitacion(Casa casa,String nombreNuevaHab, int fila, double metros)
         {
             Habitacion nueva_habitacion = new Habitacion(nombreNuevaHab, metros, fila, casa.DiccionarioFilas[fila]+1);
+            //Verificar si se puede crear por lo de personas en habitaciones adyacentes
+            
+
+
 
             double metrosCuadrados = nueva_habitacion.MetrosCuadrados;
             int trabajadores = Trabajadores_AñadirNuevaHabitacion(metrosCuadrados);
@@ -149,7 +153,29 @@ namespace Practica1CasaIntento3
             {
                 casa.AgregarNuevaHab(fila, nueva_habitacion);
                 TrabajadoresDisponibles -= trabajadores;
-                
+
+                //Verificar si se puede crear por lo de personas en habitaciones adyacentes
+                //Volver esto una funcion
+                List<Habitacion> adyacentesHabitacionNueva = casa.CalcularAdyacentes(nueva_habitacion.PosicionFila, nueva_habitacion.NumeroHabitacion);
+
+                foreach (Habitacion habitacionAdyacente in adyacentesHabitacionNueva)
+                {
+                    if (habitacionAdyacente.HayPersonas() == false)
+                    {
+
+                    }
+                    else
+                    {
+                        casa.RemoverNuevaHab(fila, nueva_habitacion);
+                        TrabajadoresDisponibles += trabajadores;
+                        Console.WriteLine("Error, para ampliar la habitacion no debe haber personas en las habitaciones adyacentes ");
+                        return;
+
+                    }
+                }
+                Console.WriteLine("Habitacion creada con Exito");
+                casa.MostrarPlanos();
+
             }
             else
             {
@@ -189,8 +215,9 @@ namespace Practica1CasaIntento3
         {
             if (trabajo.Equals("Agregar habitacion", StringComparison.OrdinalIgnoreCase))
             {
-                habitante.SolicitarHabitacionNueva(casa);
-            }
+                        //habitante.SolicitarHabitacionNueva(casa);
+                        Habitante.SolicitarHabitacionNueva(casa);
+                    }
             else if (trabajo.Equals("Ampliación de habitación", StringComparison.OrdinalIgnoreCase))
             {
                 //habitante.SolicitarAmpliacionHabitacion(casa);
