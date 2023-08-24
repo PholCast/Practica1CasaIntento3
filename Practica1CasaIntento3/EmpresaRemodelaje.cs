@@ -8,7 +8,7 @@ namespace Practica1CasaIntento3
 {
     public static class EmpresaRemodelaje
     {
-        
+
         public static Dictionary<string, List<double>> catalogo = new Dictionary<string, List<double>>
         {
             { "Silla", new List<double> {1000, 0.10 } },
@@ -19,9 +19,32 @@ namespace Practica1CasaIntento3
             { "Jarron", new List<double> {2000, 0.22 } },
         };
 
-        public static int num_trabajadores = 15;
+        public static int num_trabajadores = 24;
 
-        public static int TrabajadoresDisponibles = 15;// { get; set; }
+        public static int TrabajadoresDisponibles = 24;// { get; set; }
+
+        public static String[] remodeladorRandom =
+                    {
+            "Arnulfo", "Bernardo", "Cecilia", "Daniel", "Elias", "Federico",
+            "Gonzalo", "Henrique", "Irma", "Juancho", "Kira", "Luna",
+            "Magola", "Nela", "Oscar", "Pepito", "Quin", "Roberta",
+            "Sopia", "Tulio", "Uriel", "Valeria", "William", "Ximena",
+            "Yeison", "Zian"
+             };
+
+        public static List<Remodelador> remodeladoresEmpresa = CrearRemodeladores();
+
+        public static List<Remodelador> CrearRemodeladores()
+        {
+            List<Remodelador> remodeladores = new List<Remodelador>();
+            for (int i = 0; i < num_trabajadores; i++)
+            {
+                Remodelador aux_remodelador = new Remodelador(remodeladorRandom[i]);
+
+                remodeladores.Add(aux_remodelador);
+            }
+            return remodeladores;
+        }
 
         // PARTE DANIELA
         public static void MostrarCatalogo()
@@ -30,7 +53,7 @@ namespace Practica1CasaIntento3
             Console.WriteLine("Catálogo de objetos: ");
             foreach (var item in catalogo)
             {
-                Console.WriteLine(contador +". " + item.Key);
+                Console.WriteLine(contador + ". " + item.Key);
                 contador++;
             }
         }
@@ -70,7 +93,7 @@ namespace Practica1CasaIntento3
                         case 0:
                             {
                                 continuar = false;
-                                Remodelador.AgregarObjetos(casa, habDecorar, objetos);
+                                // Remodelador.AgregarObjetos(casa, habDecorar, objetos);    Angel arregla esto
 
                                 break;
                             }
@@ -162,7 +185,7 @@ namespace Practica1CasaIntento3
             }
             else
             {
-                Console.WriteLine("El habitante favorito no se encuentra en la hbaitacion :( ");
+                Console.WriteLine("El habitante favorito no se encuentra en la habitacion :( ");
                 string guardar;
                 Console.WriteLine("Desea decorar otra habitacion [s/n]: ");
                 guardar = Console.ReadLine();
@@ -170,7 +193,7 @@ namespace Practica1CasaIntento3
                 {
                     Habitante.SolicitarDecorarHabitacion(casa);
                 }
-            }  
+            }
         }
 
 
@@ -222,22 +245,27 @@ namespace Practica1CasaIntento3
             return cantidadItems; //???
         }*/
 
-        public static void AgregarNuevaHabitacion(Casa casa,String nombreNuevaHab, int fila, double metros)
+        public static void AgregarNuevaHabitacion(Casa casa, String nombreNuevaHab, int fila, double metros)
         {
-            Habitacion nueva_habitacion = new Habitacion(nombreNuevaHab, metros, fila, casa.DiccionarioFilas[fila]+1);
+            Habitacion nueva_habitacion = new Habitacion(nombreNuevaHab, metros, fila, casa.DiccionarioFilas[fila] + 1);
             //Verificar si se puede crear por lo de personas en habitaciones adyacentes
-            
+
 
 
 
             double metrosCuadrados = nueva_habitacion.MetrosCuadrados;
-            int trabajadores = Trabajadores_AñadirNuevaHabitacion(metrosCuadrados);
+            int trabajadoresParaTarea = Trabajadores_AñadirNuevaHabitacion(metrosCuadrados);
             double tiempo = Tiempo_AñadirNuevaHabitacion(metrosCuadrados);
 
-            if (trabajadores <= TrabajadoresDisponibles)
+            if (trabajadoresParaTarea > TrabajadoresDisponibles)
+            {
+                Console.WriteLine("No hay los trabajadores suficientes, espera a que terminen de chambear");
+            }
+
+            else
             {
                 casa.AgregarNuevaHab(fila, nueva_habitacion);
-                TrabajadoresDisponibles -= trabajadores;
+                TrabajadoresDisponibles -= trabajadoresParaTarea;
 
                 //Verificar si se puede crear por lo de personas en habitaciones adyacentes
                 //Volver esto una funcion
@@ -252,23 +280,22 @@ namespace Practica1CasaIntento3
                     else
                     {
                         casa.RemoverNuevaHab(fila, nueva_habitacion);
-                        TrabajadoresDisponibles += trabajadores;
+                        TrabajadoresDisponibles += trabajadoresParaTarea;
                         Console.WriteLine("Error, para ampliar la habitacion no debe haber personas en las habitaciones adyacentes ");
                         return;
 
                     }
                 }
+
+                //si pasa de aca es porque si se puede crear la habitacion
                 Console.WriteLine("Habitacion creada con Exito");
                 casa.MostrarPlanos();
 
             }
-            else
-            {
-                Console.WriteLine("No hay suficientes recursos disponibles para agregar una nueva habitación."); //Recursos?
-            }
+
         }
 
-        public static void AmpliarHabitacion(Casa casa, int fila, int numeroHabitacion,double aumento)
+        public static void AmpliarHabitacion(Casa casa, int fila, int numeroHabitacion, double aumento)
         {
             double metrosCuadrados = casa.PlanoCasa[fila][numeroHabitacion - 1].MetrosCuadrados;
             int trabajadores = Trabajadores_AmpliarHabitacion(metrosCuadrados);
@@ -278,7 +305,7 @@ namespace Practica1CasaIntento3
             {
                 casa.AmpliarHabitacionCasa(fila, numeroHabitacion, aumento);
                 TrabajadoresDisponibles -= trabajadores;
-                
+
             }
             else
             {
@@ -288,80 +315,84 @@ namespace Practica1CasaIntento3
 
 
         public static void RealizarIntervencionSolicitada(Casa casa, Habitante habitante, List<string> trabajosSolicitados)
-{
-    Console.WriteLine($"¿Desea realizar los cambios solicitados por {habitante.Nombre}? (Si/No)");
-    string respuesta = Console.ReadLine();
-
-    if (respuesta.Equals("Si", StringComparison.OrdinalIgnoreCase))
-    {
-        //Cambiamos el atributo para que no se pueda repetir la opcion de intervencion inicial
-        casa.Intervencion_inicial_solicitada = true;
-        foreach (string trabajo in trabajosSolicitados)
         {
-            if (trabajo.Equals("Agregar habitacion", StringComparison.OrdinalIgnoreCase))
+            Console.WriteLine($"¿Desea realizar los cambios solicitados por {habitante.Nombre}? (Si/No)");
+            string respuesta = Console.ReadLine();
+
+            if (respuesta.Equals("Si", StringComparison.OrdinalIgnoreCase))
             {
+                //Cambiamos el atributo para que no se pueda repetir la opcion de intervencion inicial
+                casa.Intervencion_inicial_solicitada = true;
+
+
+                //lista [[gimnasio,5,25,]]
+
+                foreach (string trabajo in trabajosSolicitados)
+                {
+                    if (trabajo.Equals("Agregar habitacion", StringComparison.OrdinalIgnoreCase))
+                    {
                         //habitante.SolicitarHabitacionNueva(casa);
-                        Habitante.SolicitarHabitacionNueva(casa);
+                        Habitante.SolicitarHabitacionNueva(casa/*lista[i][0], lista[i][1]*/);
                     }
-            else if (trabajo.Equals("Ampliación de habitación", StringComparison.OrdinalIgnoreCase))
+                    else if (trabajo.Equals("Ampliación de habitacion", StringComparison.OrdinalIgnoreCase))
+                    {
+                        //habitante.SolicitarAmpliacionHabitacion(casa);
+                        Habitante.SolicitarAmpliacionHabitacion(casa);
+                    }
+                }
+                Console.WriteLine("Los cambios solicitados han sido realizados.");
+            }
+            else
             {
-                //habitante.SolicitarAmpliacionHabitacion(casa);
-                Habitante.SolicitarAmpliacionHabitacion(casa);
-                    }
+                Console.WriteLine("Los cambios solicitados han sido cancelados.");
+            }
         }
-        Console.WriteLine("Los cambios solicitados han sido realizados.");
-    }
-    else
-    {
-        Console.WriteLine("Los cambios solicitados han sido cancelados.");
-    }
-}
 
-public static double CalcularCostoInicial(List<string> trabajos)
-{
-    double costoTotal = 0;
+        public static double CalcularCostoInicial(List<string> trabajos)
+        {
+            double costoTotal = 0;
 
-    Dictionary<string, double> costosPorTrabajo = new Dictionary<string, double>
+            Dictionary<string, double> costosPorTrabajo = new Dictionary<string, double>
 {
     { "Agregar habitacion", 200000},
-    { "Ampliación de habitación", 150000 },
-    { "Decoración de habitación", 80000 },
-    { "Arreglo en habitación", 120000 }
+    { "Ampliacion de habitacion", 150000 },
+    { "Decoracion de habitacion", 80000 },
+    { "Arreglo en habitacion", 120000 }
 };
 
-    foreach (string trabajo in trabajos)
-    {
-        if (costosPorTrabajo.ContainsKey(trabajo))
-        {
-            costoTotal += costosPorTrabajo[trabajo];
+            foreach (string trabajo in trabajos)
+            {
+                if (costosPorTrabajo.ContainsKey(trabajo))
+                {
+                    costoTotal += costosPorTrabajo[trabajo];
+                }
+            }
+
+            return costoTotal;
         }
-    }
 
-    return costoTotal;
-}
+        public static double CalcularTiempoTotalInicial(List<string> trabajos)
+        {
+            double tiempoTotal = 0;
 
-public static double CalcularTiempoTotalInicial(List<string> trabajos)
+            Dictionary<string, double> tiemposPorTrabajo = new Dictionary<string, double>
 {
-    double tiempoTotal = 0;
-
-    Dictionary<string, double> tiemposPorTrabajo = new Dictionary<string, double>
-{
-    { "Agregar habitacion", 3.0},
-    { "Ampliación de habitación", 2.0 },
-    { "Decoración de habitación", 1.0 },
-    { "Arreglo en habitación", 1.5 }
+    { "Agregar habitacion", 1.5},
+    { "Ampliacion de habitacion", 1 },
+    { "Decoracion de habitacion", 0.5 },
+    { "Arreglo en habitacion", 1 }//una hora por item a arreglar
 };
 
-    foreach (string trabajo in trabajos)
-    {
-        if (tiemposPorTrabajo.ContainsKey(trabajo))
-        {
-            tiempoTotal += tiemposPorTrabajo[trabajo];
-        }
-    }
+            foreach (string trabajo in trabajos)
+            {
+                if (tiemposPorTrabajo.ContainsKey(trabajo))
+                {
+                    tiempoTotal += tiemposPorTrabajo[trabajo];
+                }
+            }
 
-    return tiempoTotal;
-}
+            return tiempoTotal;
+        }
 
     }
 }

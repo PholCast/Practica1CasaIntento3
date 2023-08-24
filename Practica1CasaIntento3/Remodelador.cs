@@ -12,9 +12,9 @@ namespace Practica1CasaIntento3
         protected bool ocupado;
         protected int tiempoOcupado;
 
-        public Remodelador(string nombreRem,Habitacion habActual,bool ocupadoRem,int tiempoOcupado)
+        public Remodelador(string nombreRem, Habitacion habActual = null, bool ocupadoRem = false, int tiempoOcupado = 0)
         {
-            nombre = "¡"+nombreRem+"!";
+            nombre = "¡" + nombreRem + "!";
         }
 
         public bool Ocupado

@@ -10,7 +10,7 @@ namespace Practica1CasaIntento3
     public class Habitacion
     {
         private String nombreHab;
-        private bool tieneFavorito=false;
+        private bool tieneFavorito = false;
 
 
         private Habitante habitanteFav { get; set; }
@@ -26,7 +26,7 @@ namespace Practica1CasaIntento3
         public Habitacion(String nombreHabitacion, double metroscuadradosHab, int posicionFilaHab, int numeroHab, Habitante propietarioHab = null)
 
         {
-            
+
             posicionFila = posicionFilaHab; //Esto representa la fila
             numeroHabitacion = numeroHab;   // Esto la columna o numero de la casa contando de izquierda a derecha
 
@@ -83,7 +83,7 @@ namespace Practica1CasaIntento3
         {
             String representacion = "[";
 
-            for (int i = 0; i < metroscuadrados/5; i++)
+            for (int i = 0; i < metroscuadrados / 5; i++)
             {
 
                 if (i == metroscuadrados - 5)
@@ -118,7 +118,7 @@ namespace Practica1CasaIntento3
 
             //Conditional operator
             // variable      //condicion         //? //si se cumple : si no se cumple
-            bool respuesta = (personas.Count ==0) ? false : true;
+            bool respuesta = (personas.Count == 0) ? false : true;
 
 
 
@@ -139,7 +139,7 @@ namespace Practica1CasaIntento3
 
         public void AgregarPersona(Persona persona)
         {
-            if(tieneFavorito == false && persona is Habitante)
+            if (tieneFavorito == false && persona is Habitante)
             {
 
                 //el tipo de dato no funcionaba porque entra como tipo persona
@@ -148,7 +148,7 @@ namespace Practica1CasaIntento3
                 tieneFavorito = true;
                 habitanteFav = convertirHabitanteFav;
                 habitanteFav.HabitacionFav = this;
-                
+
             }
             personas.Add(persona);
             Console.WriteLine($"{persona.Nombre} entra a {nombreHab}");
@@ -157,7 +157,7 @@ namespace Practica1CasaIntento3
         public string NombreHab
         {
             get { return nombreHab; }
-            set { nombreHab = value;}
+            set { nombreHab = value; }
         }
     }
-}      
+}

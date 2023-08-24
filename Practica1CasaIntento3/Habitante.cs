@@ -21,9 +21,11 @@ namespace Practica1CasaIntento3
         public Habitacion HabitacionFav
         {
             get { return habitacionFav; }
-            set {
+            set
+            {
                 Console.WriteLine($"{nombre} Tu habitacion Favorita es: {value.NombreHab}");
-                    habitacionFav = value; }
+                habitacionFav = value;
+            }
         }
 
 
@@ -65,29 +67,29 @@ namespace Practica1CasaIntento3
 
             if (fila >= 0 && fila < casa.PlanoCasa.Count)
             {
-                if (numeroHabitacion > 0 && numeroHabitacion-1 < casa.PlanoCasa[fila].Count)
+                if (numeroHabitacion > 0 && numeroHabitacion - 1 < casa.PlanoCasa[fila].Count)
                 {
-                    Habitacion habitacionAmpliar = casa.PlanoCasa[fila][numeroHabitacion-1];
+                    Habitacion habitacionAmpliar = casa.PlanoCasa[fila][numeroHabitacion - 1];
                     if (habitacionAmpliar.HayPersonas() == true)
                     {
                         Console.WriteLine("Error, para ampliar la habitacion deben salir las personas de la habitacion y tampoco pueden estar en habitaciones adyacentes");
                         return;
                     }
                     List<Habitacion> adyacentesHabitacionAmpliar = casa.CalcularAdyacentes(fila, numeroHabitacion);
-                    
+
 
                     //Volver esto una funcion 
                     foreach (Habitacion habitacionAdyacente in adyacentesHabitacionAmpliar)
                     {
-                        if (habitacionAdyacente.HayPersonas()==false)
+                        if (habitacionAdyacente.HayPersonas() == false)
                         {
-                            
+
                         }
                         else
                         {
                             Console.WriteLine("Error, para ampliar la habitacion no debe haber personas en las habitaciones adyacentes ");
                             return;
-                            
+
                         }
                     }
 
@@ -137,7 +139,7 @@ namespace Practica1CasaIntento3
                 Console.WriteLine("Numero de fila invalido");
             }
         }
-        
+
         public void SolicitarIntervencionInicial(Casa casa)
         {
             List<string> trabajos = IngresarServicios();
@@ -163,18 +165,23 @@ namespace Practica1CasaIntento3
 
         public static List<string> IngresarServicios()
         {
-            List<string> trabajos = new List<string>();
-
-            Console.WriteLine("Ingrese los servicios solicitados (ingrese 'fin' para finalizar):");
-            while (true)
+            List<string> trabajos = new List<string>()
             {
-                string trabajo = Console.ReadLine();
-                if (trabajo.ToLower() == "fin")
-                {
-                    break;
-                }
-                trabajos.Add(trabajo);
-            }
+                "Agregar habitacion", "Agregar habitacion", "Ampliacion de habitacion",
+                "Agregar habitacion", "Agregar habitacion","Ampliacion de habitacion",
+                "Ampliacion de habitacion","Ampliacion de habitacion"
+            };
+
+            //Console.WriteLine("Ingrese los servicios solicitados (ingrese 'fin' para finalizar):");
+            /* while (true)
+             {
+                 string trabajo = Console.ReadLine();
+                 if (trabajo.ToLower() == "fin")
+                 {
+                     break;
+                 }
+                 trabajos.Add(trabajo);
+             }*/
 
             return trabajos;
         }
