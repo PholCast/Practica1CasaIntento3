@@ -19,6 +19,8 @@ namespace Practica1CasaIntento3
             { "Jarron", new List<double> {2000, 0.22 } },
         };
 
+        public static double precioActualizado = 0;
+
         public static int num_trabajadores = 24;
 
         public static int TrabajadoresDisponibles = 24;// { get; set; }
@@ -253,9 +255,9 @@ namespace Practica1CasaIntento3
 
 
 
-            double metrosCuadrados = nueva_habitacion.MetrosCuadrados;
-            int trabajadoresParaTarea = Trabajadores_AñadirNuevaHabitacion(metrosCuadrados);
-            double tiempo = Tiempo_AñadirNuevaHabitacion(metrosCuadrados);
+            //double metrosCuadrados = nueva_habitacion.MetrosCuadrados; //Codigo sucio. Ya existia metros en los parametros. Wtf angel
+            int trabajadoresParaTarea = Trabajadores_AñadirNuevaHabitacion(metros);
+            double tiempo = Tiempo_AñadirNuevaHabitacion(metros);
 
             if (trabajadoresParaTarea > TrabajadoresDisponibles)
             {
@@ -289,6 +291,14 @@ namespace Practica1CasaIntento3
 
                 //si pasa de aca es porque si se puede crear la habitacion
                 Console.WriteLine("Habitacion creada con Exito");
+                TrabajadoresDisponibles += trabajadoresParaTarea;
+
+                double precioNuevaHabitacion = trabajadoresParaTarea * tiempo * 40000;
+
+                //Cada vez que se cree una habitacion se le suma al precio
+                precioActualizado += precioNuevaHabitacion;
+
+                Console.WriteLine($"El precio final se ha actualizado a: {precioActualizado}");
                 casa.MostrarPlanos();
 
             }
@@ -305,12 +315,22 @@ namespace Practica1CasaIntento3
             {
                 casa.AmpliarHabitacionCasa(fila, numeroHabitacion, aumento);
                 TrabajadoresDisponibles -= trabajadores;
-
+                //Asincrona para esperar mientras lo hacen la tarea.
             }
             else
             {
                 Console.WriteLine("No hay suficientes recursos disponibles para ampliar la habitación."); //WTF que hizo angel?
             }
+
+            Console.WriteLine($"La habitacion {fila}{numeroHabitacion} ha sido ampliada {aumento} metros");
+            //pasado el tiempo acaban la tarea
+            TrabajadoresDisponibles += trabajadores;
+
+            double precioHabitacionAmpliada = trabajadores * tiempo * 40000;
+
+            precioActualizado += precioHabitacionAmpliada;
+            Console.WriteLine($"El precio final se ha actualizado a: {precioActualizado}");
+            
         }
 
 
