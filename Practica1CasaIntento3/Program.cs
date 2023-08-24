@@ -10,12 +10,12 @@ namespace Practica1CasaIntento3
         {
 
 
-            Console.WriteLine($"Existe el remodelador: {EmpresaRemodelaje.remodeladoresEmpresa[0].Nombre}");
-            Console.WriteLine($"Existe el remodelador: {EmpresaRemodelaje.remodeladoresEmpresa[1].Nombre}");
+            
 
             Casa casa1 = new Casa(4);
 
             casa1.MostrarPlanos();
+
 
             while (true)
             {
@@ -45,7 +45,7 @@ namespace Practica1CasaIntento3
                             else
                             {
 
-                                //
+                                Habitante.SolicitarIntervencionInicial(casa1);
 
 
                             }
@@ -57,10 +57,10 @@ namespace Practica1CasaIntento3
                             Habitante.SolicitarAmpliacionHabitacion(casa1);
                             break;
                         case 4:
-                            //
+                            Habitante.SolicitarDecorarHabitacion(casa1);
                             break;
                         case 5:
-                            //
+                            //Habitante.SolicitarArreglarObjetos(casa1); agregar luego
                             break;
                         case 6:
 

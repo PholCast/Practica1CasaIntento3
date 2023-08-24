@@ -45,6 +45,13 @@ namespace Practica1CasaIntento3
                 habitanteFav.HabitacionFav = this;
             }
         }
+
+        public List<Objeto> Objetos
+        {
+            get { return objetos; }
+            set { objetos = value; }
+        }
+
         public Habitante HabitanteFav
         {
             get { return habitanteFav; }
@@ -77,6 +84,12 @@ namespace Practica1CasaIntento3
             set { numeroHabitacion = value; }
         }
 
+
+        public string NombreHab
+        {
+            get { return nombreHab; }
+            set { nombreHab = value; }
+        }
 
         //Haciendo la representacion de las habitaciones
         public override string ToString()
@@ -154,10 +167,14 @@ namespace Practica1CasaIntento3
             Console.WriteLine($"{persona.Nombre} entra a {nombreHab}");
         }
 
-        public string NombreHab
+        
+        public void MostrarObjetosHabitacion()
         {
-            get { return nombreHab; }
-            set { nombreHab = value; }
+            Console.WriteLine("Objetos en la habitacion: ");
+            foreach (Objeto objetosEnHabitacion in objetos)
+            {
+                Console.WriteLine(objetosEnHabitacion.Nombre);
+            }
         }
     }
 }

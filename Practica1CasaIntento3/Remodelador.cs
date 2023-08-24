@@ -52,9 +52,17 @@ namespace Practica1CasaIntento3
 
         }
 
-        public void arreglarObjetoHab(int numero1, int numero2)
+        public void arreglarObjetoHab(Objeto objetoArreglar)
         {
-
+            if (objetoArreglar.Estado == false)
+            {
+                objetoArreglar.Estado = true;
+                Console.WriteLine($"El empleado {nombre} ha arreglado el objeto {objetoArreglar.Nombre}");
+            }
+            else
+            {
+                Console.WriteLine($"El objeto {objetoArreglar.Nombre} no tiene daños");
+            }
         }
 
     }

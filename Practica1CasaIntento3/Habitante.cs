@@ -30,16 +30,20 @@ namespace Practica1CasaIntento3
 
 
         //nueva habitacion y ampliar habitacion son estaticos para no tener que hacer que lo pida alguien en especifico
-        public static void SolicitarHabitacionNueva(Casa casa)
+        public static void SolicitarHabitacionNueva(Casa casa, string nombre_nueva_habitacion = null, int fila = -1, double metros = -1)
         {
-            Console.Write("Ingrese el nombre de la habitacion nueva: ");
-            String nombre_nueva_habitacion = Console.ReadLine();
 
-            Console.Write("Ingrese el número de fila en la casa que quiere agregar la habitacion: ");
-            int fila = Convert.ToInt32(Console.ReadLine());
+            if (nombre_nueva_habitacion == null && fila == -1 && metros == -1)
+            {
+                Console.Write("Ingrese el nombre de la habitacion nueva: ");
+                nombre_nueva_habitacion = Console.ReadLine();
 
-            Console.Write("Ingrese el tamaño de la habitacion (por favor un multiplo de 5) :(  :");
-            double metros = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Ingrese el número de fila en la casa que quiere agregar la habitacion: ");
+                fila = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Ingrese el tamaño de la habitacion (por favor un multiplo de 5) :(  :");
+                metros = Convert.ToDouble(Console.ReadLine());
+            }
 
             if (fila >= 0 && fila < casa.PlanoCasa.Count)
             {
@@ -52,18 +56,22 @@ namespace Practica1CasaIntento3
             }
         }
 
-        public static void SolicitarAmpliacionHabitacion(Casa casa)
+        public static void SolicitarAmpliacionHabitacion(Casa casa, int fila = -1, int numeroHabitacion = -1, double aumento = -1)
         {
             casa.MostrarPlanos();
 
-            Console.Write("Ingrese el numero de fila en donde esta la habitacion para ampliar: ");
-            int fila = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Ingrese el numero de habitacion para ampliar: ");
-            int numeroHabitacion = Convert.ToInt32(Console.ReadLine());
+            if (fila == -1 && numeroHabitacion == -1 && aumento == -1)
+            {
+                Console.Write("Ingrese el numero de fila en donde esta la habitacion para ampliar: ");
+                fila = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Cuanto aumento quiere en la habitacion (por favor un multiplo de 5) :(  : ");
-            double aumento = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Ingrese el numero de habitacion para ampliar: ");
+                numeroHabitacion = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Cuanto aumento quiere en la habitacion (por favor un multiplo de 5) :(  : ");
+                aumento = Convert.ToDouble(Console.ReadLine());
+            }
 
             if (fila >= 0 && fila < casa.PlanoCasa.Count)
             {
@@ -114,18 +122,23 @@ namespace Practica1CasaIntento3
             }
         }
 
-        public static void SolicitarDecorarHabitacion(Casa casa)
+        public static void SolicitarDecorarHabitacion(Casa casa, int fila = -1, int numeroHabitacion = -1)
         {
-            casa.MostrarPlanos();
-            Console.Write("Ingrese el numero de fila donde esta la habitacion a decorar: ");
-            int fila = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Ingrese el numero de habitacion que desea decorar: ");
-            int numeroHabitacion = Convert.ToInt32(Console.ReadLine());
+            casa.MostrarPlanos();
+
+            if (fila == -1 && numeroHabitacion == -1)
+            {
+                Console.Write("Ingrese el numero de fila donde esta la habitacion a decorar: ");
+                fila = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Ingrese el numero de habitacion que desea decorar: ");
+                numeroHabitacion = Convert.ToInt32(Console.ReadLine());
+            }
 
             if (fila >= 0 && fila < casa.PlanoCasa.Count)
             {
-                if (numeroHabitacion > 0 && numeroHabitacion < casa.PlanoCasa[fila].Count)
+                if (numeroHabitacion > 0 && numeroHabitacion - 1 < casa.PlanoCasa[fila].Count)
                 {
                     EmpresaRemodelaje.MostrarMenu(casa, casa.PlanoCasa[fila][numeroHabitacion - 1]);
                 }
@@ -140,17 +153,29 @@ namespace Practica1CasaIntento3
             }
         }
 
-        public void SolicitarIntervencionInicial(Casa casa)
+        public static void SolicitarIntervencionInicial(Casa casa)
         {
             List<string> trabajos = IngresarServicios();
 
+            List<List<string>> datos = new List<List<string>>
+            {
+                new List<string> { "Gimnasio", "3", "20"},
+                new List<string> { "Sala", "0", "5"},
+                new List<string> { "2", "2", "10"},
+                new List<string> { "cuarto", "2", "15"},
+                new List<string> { "Cocina", "0", "10"},
+                new List<string> { "0", "1", "5"},
+                new List<string> { "2", "3", "10"},
+                new List<string> { "1", "1", "15"}
+            };
+
             double costoTotalInicial = EmpresaRemodelaje.CalcularCostoInicial(trabajos);
-            double tiempoTotalInicial = EmpresaRemodelaje.CalcularTiempoTotalInicial(trabajos);
+            double tiempoTotalInicial = EmpresaRemodelaje.CalcularTiempoTotalInicial(trabajos,datos);
 
             int trabajadoresRequeridos = (int)Math.Ceiling(tiempoTotalInicial);
             double costoTrabajadores = trabajadoresRequeridos * 40000;
 
-            Console.WriteLine($"Intervención inicial solicitada por {nombre}:");
+            Console.WriteLine($"Intervención inicial solicitada:");
             Console.WriteLine("Trabajos solicitados:");
             foreach (string trabajo in trabajos)
             {
@@ -160,8 +185,49 @@ namespace Practica1CasaIntento3
             Console.WriteLine($"Tiempo requerido: {tiempoTotalInicial} horas");
             Console.WriteLine($"Número de trabajadores requeridos: {trabajadoresRequeridos}");
 
-            EmpresaRemodelaje.RealizarIntervencionSolicitada(casa, this, trabajos);
+            EmpresaRemodelaje.RealizarIntervencionSolicitada(casa,trabajos,datos);
         }
+
+        public static void SolicitarArreglarObjetos(Objeto objetosParaArreglar, Casa casa, int fila = -1, int numeroHabitacion=-1)
+        {
+            casa.MostrarPlanos();
+
+
+            if (fila == -1 && numeroHabitacion == -1)
+            {
+                Console.Write("Ingrese el numero de fila donde desea arreglar el objeto: ");
+                fila = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Ingrese el numero de habitacion donde desea arreglar el objeto: ");
+                numeroHabitacion = Convert.ToInt32(Console.ReadLine());
+
+            }
+
+            if (fila >= 0 && fila < casa.PlanoCasa.Count)
+            {
+                if (numeroHabitacion > 0 && numeroHabitacion < casa.PlanoCasa[fila].Count)
+                {
+                    //EmpresaRemodelaje.MostrarMenu(casa, casa.PlanoCasa[fila][numeroHabitacion - 1]);
+
+                    //Crear un metodo de la empresa llamado:
+                    //EmpresaRemodelaje.ArreglarObjetos(casa,casa.PlanoCasa[fila][numeroHabitacion - 1],objetosParaArreglar);
+                }
+                else
+                {
+                    Console.WriteLine("Numero de habitacion invalido");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Numero de fila invalido");
+            }
+
+            //habitacion.MostrarObjetosHabitacion();
+        }
+
+
+
+
 
         public static List<string> IngresarServicios()
         {

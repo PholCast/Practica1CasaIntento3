@@ -178,6 +178,29 @@ namespace Practica1CasaIntento3
             Console.ReadKey();
         }
 
+        public void MostrarPlanosObjetos()
+        {
+            int cont = 0;
+            foreach (List<Habitacion> fila in planoCasa)
+
+            {
+                Console.Write($"{cont} [");
+                foreach (Habitacion elemento in fila)
+                {
+                    Console.Write("[");
+                    foreach(Objeto objeto in elemento.Objetos)
+                    {
+                        Console.Write($"{objeto.Nombre} ");
+                    }
+                    Console.Write("]");
+                }
+                Console.Write("]");
+                Console.WriteLine();
+                cont++;
+            }
+            Console.WriteLine();
+        }
+
 
         public void RemoverNuevaHab(int fila, Habitacion habitacionARemover)
         {

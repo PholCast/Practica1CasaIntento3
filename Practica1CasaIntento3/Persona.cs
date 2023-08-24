@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Practica1CasaIntento3
 {
-    public abstract class Persona
+    public class Persona
     {
         protected String nombre;
         protected Habitacion habitacionActual;
