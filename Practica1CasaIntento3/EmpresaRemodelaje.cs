@@ -64,9 +64,9 @@ namespace Practica1CasaIntento3
         {
             bool continuar = true;
             double espacioUsado = 0 + habDecorar.CalcularEspacioObjetos();
-            if (habDecorar.HabitanteFav.HabitacionActual == habDecorar)
+            if (habDecorar.HabitanteFav!=null && habDecorar.HabitanteFav.HabitacionActual == habDecorar && TrabajadoresDisponibles > 0)
             {
-                List<Objeto> objetos = new List<Objeto>();
+                List<Objeto> objetosDecorar = new List<Objeto>();
 
                 while (continuar)
                 {
@@ -88,13 +88,14 @@ namespace Practica1CasaIntento3
 
                     } while (opcion < 0 || opcion > 6);
 
-                    Objeto objetoACrear;
+                    Objeto objetoACrear = null;
 
                     switch (opcion)
                     {
                         case 0:
                             {
                                 continuar = false;
+                                EmpresaRemodelaje.DecorarHabitacion(casa,habDecorar,objetosDecorar);
                                 // Remodelador.AgregarObjetos(casa, habDecorar, objetos);    Angel arregla esto
 
                                 break;
@@ -183,11 +184,26 @@ namespace Practica1CasaIntento3
                                 break;
                             }
                     }
+
+                 if(objetoACrear != null)
+                    {
+                 objetosDecorar.Add(objetoACrear);
+
+                    }
                 }
+            }
+            else if(habDecorar.HabitanteFav == null)
+            {
+                Console.WriteLine("La habitacion no tiene habitante favorito, define uno para que podamos decorarla");
+            }
+
+            else if (TrabajadoresDisponibles == 0)
+            {
+                Console.WriteLine("En este momento no hay trabajadores disponibles para decorar la habitacion");
             }
             else
             {
-                Console.WriteLine("El habitante favorito no se encuentra en la habitacion :( ");
+                Console.WriteLine($"El habitante favorito {habDecorar.HabitanteFav.Nombre} no se encuentra en la habitacion :( ");
                 string guardar;
                 Console.WriteLine("Desea decorar otra habitacion [s/n]: ");
                 guardar = Console.ReadLine();
@@ -246,6 +262,34 @@ namespace Practica1CasaIntento3
         {
             return cantidadItems; //???
         }*/
+
+
+
+        public static void DecorarHabitacion(Casa casa, Habitacion habDecorar, List<Objeto> objetosParaDecorar)
+        {
+            double tiempoTarea = objetosParaDecorar.Count * 0.5;
+
+            //Para decorar habitacion solo se necesita un trabajador
+
+            TrabajadoresDisponibles -= 1;
+            //trabajador.ocupado = true;
+            double precioDecoracion = tiempoTarea * 40000;
+
+            Console.WriteLine($"objetos para decorar: {objetosParaDecorar}");
+
+            //cuando acabe
+            //trabajador.ocupado = false;
+            habDecorar.AgregarDecoracion(objetosParaDecorar);
+
+            precioActualizado += precioDecoracion;
+
+            Console.WriteLine($"El precio final se ha actualizado a: {precioActualizado}");
+
+        }
+
+
+
+
 
         public static void AgregarNuevaHabitacion(Casa casa, String nombreNuevaHab, int fila, double metros)
         {

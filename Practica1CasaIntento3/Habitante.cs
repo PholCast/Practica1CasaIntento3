@@ -23,7 +23,7 @@ namespace Practica1CasaIntento3
             get { return habitacionFav; }
             set
             {
-                Console.WriteLine($"{nombre} Tu habitacion Favorita es: {value.NombreHab}");
+                //Console.WriteLine($"{nombre} Tu habitacion Favorita es: {value.NombreHab}");
                 habitacionFav = value;
             }
         }
@@ -224,10 +224,6 @@ namespace Practica1CasaIntento3
 
             //habitacion.MostrarObjetosHabitacion();
         }
-
-
-
-
 
         public static List<string> IngresarServicios()
         {

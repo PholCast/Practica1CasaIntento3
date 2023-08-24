@@ -92,9 +92,11 @@ namespace Practica1CasaIntento3
 
                             break;
                         case 7:
+                            Console.WriteLine($"El precio final es de {EmpresaRemodelaje.precioActualizado}");
                             Console.WriteLine("Gracias por usar nuestro Software :D");
                             break;
                         default:
+
                             Console.WriteLine("Error, ingresa una opcion valida entre 1 y 7");
                             break;
 

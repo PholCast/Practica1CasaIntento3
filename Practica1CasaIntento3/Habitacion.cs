@@ -158,9 +158,17 @@ namespace Practica1CasaIntento3
                 //el tipo de dato no funcionaba porque entra como tipo persona
                 //entonces toca convertirla a tipo Habitante
                 Habitante convertirHabitanteFav = persona as Habitante;
-                tieneFavorito = true;
-                habitanteFav = convertirHabitanteFav;
-                habitanteFav.HabitacionFav = this;
+
+                //Si esa persona no tenia habitacion favorita, entonces al moverse a esa sera su habitacion favorita
+                if (convertirHabitanteFav.HabitacionFav == null)
+                {
+
+                    tieneFavorito = true;
+                    habitanteFav = convertirHabitanteFav;
+                    habitanteFav.HabitacionFav = this;
+                }
+
+                
 
             }
             personas.Add(persona);
@@ -175,6 +183,17 @@ namespace Practica1CasaIntento3
             {
                 Console.WriteLine(objetosEnHabitacion.Nombre);
             }
+        }
+
+        public void AgregarDecoracion(List<Objeto> objetosDecorar)
+        {
+            foreach(Objeto objeto in objetosDecorar)
+            {
+                objetos.Add(objeto);
+                Console.WriteLine($"Se agregó a {objeto.Nombre} la habitacion");
+            }
+
+            
         }
     }
 }
