@@ -67,7 +67,7 @@ namespace Practica1CasaIntento3
 
 
 
-        public static void ArreglarObjetos(Habitacion habitacionObjetosArreglar,List<int> indicesObjetosArreglar)
+        public static async void ArreglarObjetos(Habitacion habitacionObjetosArreglar,List<int> indicesObjetosArreglar)
         {
            
             List<Remodelador> remodeladoresArreglar = new List<Remodelador>();
@@ -105,7 +105,10 @@ namespace Practica1CasaIntento3
 
             double precioArreglar = cantidadTrabajadoresTarea * tiempoTarea * 40000;
             //ahora si arreglamos
-            for(int t = 0; t < indicesObjetosArreglar.Count; t++)
+            Console.WriteLine($"La reparación tardará {tiempoTarea} horas ({tiempoTarea * 2} segundos)");
+            await Task.Delay(TimeSpan.FromSeconds(tiempoTarea * 2));
+
+            for (int t = 0; t < indicesObjetosArreglar.Count; t++)
             {
                 Objeto objetoArreglar = habitacionObjetosArreglar.Objetos[indicesObjetosArreglar[t]];
 
@@ -180,7 +183,7 @@ namespace Practica1CasaIntento3
             }
         }
 
-        public static void DecorarHabitacion(Casa casa, Habitacion habDecorar, List<Objeto> objetosParaDecorar)
+        public static async void DecorarHabitacion(Casa casa, Habitacion habDecorar, List<Objeto> objetosParaDecorar)
         {
             double tiempoTarea = objetosParaDecorar.Count * 0.5;
 
@@ -192,6 +195,8 @@ namespace Practica1CasaIntento3
 
             Console.WriteLine($"objetos para decorar: {objetosParaDecorar}");
 
+            Console.WriteLine($"La decoracion tardará {tiempoTarea} horas ({tiempoTarea*2} segundos)");
+            await Task.Delay(TimeSpan.FromSeconds(tiempoTarea*2));
             //cuando acabe
             //trabajador.ocupado = false;
             habDecorar.AgregarDecoracion(objetosParaDecorar);
@@ -206,7 +211,7 @@ namespace Practica1CasaIntento3
 
 
 
-        public static void AgregarNuevaHabitacion(Casa casa, String nombreNuevaHab, int fila, double metros)
+        public static async void AgregarNuevaHabitacion(Casa casa, String nombreNuevaHab, int fila, double metros)
         {
             Habitacion nueva_habitacion = new Habitacion(nombreNuevaHab, metros, fila, casa.DiccionarioFilas[fila] + 1);
             //Verificar si se puede crear por lo de personas en habitaciones adyacentes
@@ -249,7 +254,13 @@ namespace Practica1CasaIntento3
                 }
 
                 //si pasa de aca es porque si se puede crear la habitacion
+                Console.WriteLine($"La Construccion tardará {tiempo} horas ({tiempo * 2} segundos)");
+                //Esperar el tiempo
+                await Task.Delay(TimeSpan.FromSeconds(tiempo * 2));
+
+
                 Console.WriteLine("Habitacion creada con Exito");
+                casa.MostrarPlanos();
                 TrabajadoresDisponibles += trabajadoresParaTarea;
 
                 double precioNuevaHabitacion = trabajadoresParaTarea * tiempo * 40000;
@@ -258,13 +269,12 @@ namespace Practica1CasaIntento3
                 precioActualizado += precioNuevaHabitacion;
 
                 Console.WriteLine($"El precio final se ha actualizado a: {precioActualizado}");
-                casa.MostrarPlanos();
 
             }
 
         }
 
-        public static void AmpliarHabitacion(Casa casa, int fila, int numeroHabitacion, double aumento)
+        public static async void AmpliarHabitacion(Casa casa, int fila, int numeroHabitacion, double aumento)
         {
             double metrosCuadrados = casa.PlanoCasa[fila][numeroHabitacion - 1].MetrosCuadrados;
             int trabajadores = Trabajadores_AmpliarHabitacion(metrosCuadrados);
@@ -272,16 +282,23 @@ namespace Practica1CasaIntento3
 
             if (trabajadores <= TrabajadoresDisponibles)
             {
+                Console.WriteLine($"La Construccion Ampliación {tiempo} horas ({tiempo * 2} segundos)");
+                await Task.Delay(TimeSpan.FromSeconds(tiempo * 2));
+
                 casa.AmpliarHabitacionCasa(fila, numeroHabitacion, aumento);
                 TrabajadoresDisponibles -= trabajadores;
                 //Asincrona para esperar mientras lo hacen la tarea.
             }
             else
             {
-                Console.WriteLine("No hay suficientes recursos disponibles para ampliar la habitación."); //WTF que hizo angel?
+                Console.WriteLine("No hay suficientes recursos disponibles para ampliar la habitación.");
             }
 
+
+
             Console.WriteLine($"La habitacion {fila}{numeroHabitacion} ha sido ampliada {aumento} metros");
+
+
             //pasado el tiempo acaban la tarea
             TrabajadoresDisponibles += trabajadores;
 

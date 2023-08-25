@@ -175,7 +175,7 @@ namespace Practica1CasaIntento3
                 cont++;
             }
             Console.WriteLine();
-            Console.ReadKey();
+            
         }
 
         public void MostrarPlanosObjetos()

@@ -6,11 +6,12 @@ namespace Practica1CasaIntento3
 {
     class Program
     {
-        static void Main(string[] args)
+        //static volatile bool terminarActualizacionHora = false;
+        static async Task Main(string[] args)
         {
 
 
-            
+            //Task horaTask = ActualizarHoraAsync();
 
             Casa casa1 = new Casa(4);
 
@@ -120,8 +121,13 @@ namespace Practica1CasaIntento3
                 }
             }
 
+            // Indicar que se debe terminar la tarea de actualización de hora
+            //terminarActualizacionHora = true;
 
-            // EmpresaRemodelaje.MostrarMenu();
+            // Esperar a que la tarea de actualización de hora termine
+            //await horaTask;
+
+            /* EmpresaRemodelaje.MostrarMenu();
 
             //Casa casa1 = new Casa(4);
 
@@ -165,10 +171,30 @@ namespace Practica1CasaIntento3
 
 
             //casa1.PlanoCasa[2][1].Personas[0].mover(casa1.PlanoCasa[0][3], casa1);
-            casa1.MostrarPlanos();
+            casa1.MostrarPlanos();*/
         }
+        /*static async Task ActualizarHoraAsync()
+        {
 
+            Console.WriteLine("Hora actual: " + DateTime.Now);
 
+            // Aumentar la hora en 30 minutos
+            DateTime nuevaHora = DateTime.Now;
+
+            while (!terminarActualizacionHora)
+            {
+                // Aumentar la hora en 30 minutos
+                nuevaHora = nuevaHora.AddMinutes(30);
+
+                // Esperar 10 segundos antes de la próxima actualización
+                await Task.Delay(1000); // Esperar 10 segundos
+
+                //Console.WriteLine("Actualizando hora del sistema a: " + nuevaHora);
+            }
+        }*/
 
     }
+
+
 }
+
