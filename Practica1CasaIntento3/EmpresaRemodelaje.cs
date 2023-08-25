@@ -66,6 +66,34 @@ namespace Practica1CasaIntento3
         }
 
 
+        public static async void RemoverHabitacion(Casa casa,Habitacion habitacionARemover) 
+        {
+            List<Habitacion> adyacentes = casa.CalcularAdyacentes(habitacionARemover.PosicionFila, habitacionARemover.NumeroHabitacion);
+
+            int num_trabajadoresTarea = 4;
+
+            double tiempoRemover = num_trabajadores * 2;
+
+            if(adyacentes.Count >= 2 && num_trabajadoresTarea<= TrabajadoresDisponibles)
+            {
+                TrabajadoresDisponibles -= num_trabajadoresTarea;
+                Console.WriteLine($"Removiendo Habitacion... La tarea tardará {tiempoRemover} ({tiempoRemover*2} segundos)");
+
+                await Task.Delay(TimeSpan.FromSeconds(tiempoRemover * 2));
+
+                casa.RemoverNuevaHab(habitacionARemover.PosicionFila, habitacionARemover);
+
+                Console.WriteLine($"La habitacion {habitacionARemover.PosicionFila}{habitacionARemover.NumeroHabitacion} fue removida con exito");
+                TrabajadoresDisponibles += 4;
+                casa.MostrarPlanos();
+            }
+            else
+            {
+                Console.WriteLine($"Error, la habitacion solo tiene {adyacentes.Count} habitaciones adyacentes");
+                return;
+            }
+        }
+
 
         public static async void ArreglarObjetos(Habitacion habitacionObjetosArreglar,List<int> indicesObjetosArreglar)
         {
@@ -592,6 +620,7 @@ namespace Practica1CasaIntento3
         {
             return 1.5 * metrosCuadrados;
         }
+
 
         public static int Trabajadores_AñadirNuevaHabitacion(double metrosCuadrados)
         {

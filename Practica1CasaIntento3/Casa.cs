@@ -205,7 +205,7 @@ namespace Practica1CasaIntento3
         public void RemoverNuevaHab(int fila, Habitacion habitacionARemover)
         {
             diccionarioFilas[fila] -= 1;
-            planoCasa[fila].Remove(habitacionARemover);
+            planoCasa[fila].Remove(planoCasa[fila][habitacionARemover.NumeroHabitacion-1]);
         }
 
         public void AgregarNuevaHab(int fila, Habitacion habCrear)

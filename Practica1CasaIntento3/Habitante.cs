@@ -122,6 +122,38 @@ namespace Practica1CasaIntento3
             }
         }
 
+        public static void SolicitarRemoverHabitacion(Casa casa)
+        {
+            Console.Write("Ingrese el numero de fila donde esta la habitacion a remover: ");
+            int fila = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Ingrese el numero de habitacion que desea remover: ");
+            int numeroHabitacion = Convert.ToInt32(Console.ReadLine());
+
+            if (fila >= 0 && fila < casa.PlanoCasa.Count)
+            {
+                if (numeroHabitacion > 0 && numeroHabitacion - 1 < casa.PlanoCasa[fila].Count)
+                {
+                    EmpresaRemodelaje.RemoverHabitacion(casa, casa.PlanoCasa[fila][numeroHabitacion - 1]);
+                }
+                else
+                {
+                    Console.WriteLine("Numero de habitacion invalido");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Numero de fila invalido");
+            }
+        }
+
+
+
+
+
+
+
+
         public static void SolicitarDecorarHabitacion(Casa casa, int fila = -1, int numeroHabitacion = -1,List<int> objetos=null)
         {
 

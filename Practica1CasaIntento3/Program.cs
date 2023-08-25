@@ -33,7 +33,8 @@ namespace Practica1CasaIntento3
                         "\n4.Decorar Habitacion" +
                         "\n5.Arreglar item de una habitacion" +
                         "\n6.Mover un habitante" +
-                        "\n7.Salir\nELIGE UNA OPCION:");
+                        "\n7.Remover habitacion"+
+                        "\n8.Salir\nELIGE UNA OPCION:");
 
                     Console.WriteLine("----------------------------------------------------");
                     try
@@ -102,6 +103,10 @@ namespace Practica1CasaIntento3
 
                             break;
                         case 7:
+                            Habitante.SolicitarRemoverHabitacion(casa1);
+                            break;
+
+                        case 8:
                             Console.WriteLine($"El precio final es de {EmpresaRemodelaje.precioActualizado}");
                             Console.WriteLine("Gracias por usar nuestro Software :D");
                             break;
@@ -113,9 +118,9 @@ namespace Practica1CasaIntento3
                     }
 
 
-                } while (opcionMain != 7);
+                } while (opcionMain != 8);
 
-                if (opcionMain == 7)
+                if (opcionMain == 8)
                 {
                     break;
                 }
