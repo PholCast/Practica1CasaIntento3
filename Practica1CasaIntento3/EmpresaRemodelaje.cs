@@ -101,7 +101,7 @@ namespace Practica1CasaIntento3
 
             //1 hora por item. Y 1 trabajador por item
             int cantidadTrabajadoresTarea = indicesObjetosArreglar.Count;
-            int tiempoTarea = indicesObjetosArreglar.Count; ;
+            int tiempoTarea = indicesObjetosArreglar.Count;
 
             double precioArreglar = cantidadTrabajadoresTarea * tiempoTarea * 40000;
             //ahora si arreglamos
@@ -121,8 +121,11 @@ namespace Practica1CasaIntento3
         }
 
 
-        public static void SeleccionarArreglarObjetos(Habitacion habitacionArreglar)
+        public static void SeleccionarArreglarObjetos(Habitacion habitacionArreglar,List<int> objetos=null)
         {
+            //contador por si envian la lista de los objetos
+            int i = 0;
+
             bool continuarEleccion = true;
             List<int> indicesObjetos = new List<int>();
             if(habitacionArreglar.Objetos.Count == 0)
@@ -143,19 +146,29 @@ namespace Practica1CasaIntento3
                     habitacionArreglar.MostrarObjetosHabitacion();
                     Console.WriteLine($"{habitacionArreglar.Objetos.Count}. Finalizar solicitud de arreglo");
                     int opcion;
-                    do
+                    if(objetos == null)
                     {
-                        try
+                        do
                         {
-                            Console.WriteLine($"Seleccione un número del 0 al {habitacionArreglar.Objetos.Count} para elegir un objeto: ");
-                            opcion = Convert.ToInt32(Console.ReadLine());
-                        }
-                        catch (FormatException)
-                        {
-                            Console.WriteLine("Error: La entrada no es un número válido. Intente de nuevo.");
-                            opcion = -1; // Establece una opción inválida para continuar el ciclo
-                        }
-                    }while(opcion < 0 || opcion > habitacionArreglar.Objetos.Count);
+                            try
+                            {
+                                Console.WriteLine($"Seleccione un número del 0 al {habitacionArreglar.Objetos.Count} para elegir un objeto: ");
+                                opcion = Convert.ToInt32(Console.ReadLine());
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Error: La entrada no es un número válido. Intente de nuevo.");
+                                opcion = -1; // Establece una opción inválida para continuar el ciclo
+                            }
+                        } while (opcion < 0 || opcion > habitacionArreglar.Objetos.Count);
+                    }
+                    else
+                    {
+                        opcion = objetos[i];
+                        i++;
+                    }
+
+                    
 
 
 
@@ -193,7 +206,7 @@ namespace Practica1CasaIntento3
             //trabajador.ocupado = true;
             double precioDecoracion = tiempoTarea * 40000;
 
-            Console.WriteLine($"objetos para decorar: {objetosParaDecorar}");
+            //Console.WriteLine($"objetos para decorar: {objetosParaDecorar}");
 
             Console.WriteLine($"La decoracion tardará {tiempoTarea} horas ({tiempoTarea*2} segundos)");
             await Task.Delay(TimeSpan.FromSeconds(tiempoTarea*2));
@@ -259,7 +272,7 @@ namespace Practica1CasaIntento3
                 await Task.Delay(TimeSpan.FromSeconds(tiempo * 2));
 
 
-                Console.WriteLine("Habitacion creada con Exito");
+                Console.WriteLine($"Habitacion en la fila {fila} creada con Exito");
                 casa.MostrarPlanos();
                 TrabajadoresDisponibles += trabajadoresParaTarea;
 
@@ -277,8 +290,8 @@ namespace Practica1CasaIntento3
         public static async void AmpliarHabitacion(Casa casa, int fila, int numeroHabitacion, double aumento)
         {
             double metrosCuadrados = casa.PlanoCasa[fila][numeroHabitacion - 1].MetrosCuadrados;
-            int trabajadores = Trabajadores_AmpliarHabitacion(metrosCuadrados);
-            double tiempo = Tiempo_AmpliarHabitacion(metrosCuadrados);
+            int trabajadores = Trabajadores_AmpliarHabitacion(aumento);
+            double tiempo = Tiempo_AmpliarHabitacion(aumento);
 
             if (trabajadores <= TrabajadoresDisponibles)
             {
@@ -297,7 +310,7 @@ namespace Practica1CasaIntento3
 
 
             Console.WriteLine($"La habitacion {fila}{numeroHabitacion} ha sido ampliada {aumento} metros");
-
+            casa.MostrarPlanos();
 
             //pasado el tiempo acaban la tarea
             TrabajadoresDisponibles += trabajadores;
@@ -310,10 +323,12 @@ namespace Practica1CasaIntento3
         }
 
         //Metodo para mostrar el menu de decoracion
-        public static void MostrarMenu(Casa casa, Habitacion habDecorar)
-        {
+        public static void MostrarMenu(Casa casa, Habitacion habDecorar, List<int> objetos = null)
+        { //contador para recorrer lista de objetos
+            int i = 0;
+
             bool continuar = true;
-            double espacioUsado = 0 + habDecorar.CalcularEspacioObjetos();
+            double espacioUsado = habDecorar.CalcularEspacioObjetos();
             if (habDecorar.HabitanteFav != null && habDecorar.HabitanteFav.HabitacionActual == habDecorar && TrabajadoresDisponibles > 0)
             {
                 List<Objeto> objetosDecorar = new List<Objeto>();
@@ -323,20 +338,29 @@ namespace Practica1CasaIntento3
                     MostrarCatalogo();
                     int opcion;
 
-                    do
+                    if (objetos == null) 
                     {
-                        try
+                        do
                         {
-                            Console.WriteLine("Seleccione un número del 1 al 6 para elegir un objeto (0 para pasar a comprar): ");
-                            opcion = Convert.ToInt32(Console.ReadLine());
-                        }
-                        catch (FormatException)
-                        {
-                            Console.WriteLine("Error: La entrada no es un número válido. Intente de nuevo.");
-                            opcion = -1; // Establece una opción inválida para continuar el ciclo
-                        }
+                            try
+                            {
+                                Console.WriteLine("Seleccione un número del 1 al 6 para elegir un objeto (0 para pasar a comprar): ");
+                                opcion = Convert.ToInt32(Console.ReadLine());
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Error: La entrada no es un número válido. Intente de nuevo.");
+                                opcion = -1; // Establece una opción inválida para continuar el ciclo
+                            }
 
-                    } while (opcion < 0 || opcion > 6);
+                        } while (opcion < 0 || opcion > 6);
+                    }
+                    else
+                    {
+                        opcion = objetos[i];
+                        i++;
+                    }
+                    
 
                     Objeto objetoACrear = null;
 
@@ -487,12 +511,32 @@ namespace Practica1CasaIntento3
                         Habitante.SolicitarAmpliacionHabitacion(casa, Convert.ToInt32(datos[i][0]), Convert.ToInt32(datos[i][1]), Convert.ToDouble(datos[i][2]));
                         i++;
                     }
+                    else if (trabajo.Equals("Decorar habitacion", StringComparison.OrdinalIgnoreCase))
+                    {
+                        List<int> objetos = new List<int>();
+                        objetos.Add(Convert.ToInt32(datos[i][2]));
+                        objetos.Add(Convert.ToInt32(datos[i][3]));
+                        objetos.Add(Convert.ToInt32(datos[i][4]));
+
+                        Habitante.SolicitarDecorarHabitacion(casa, Convert.ToInt32(datos[i][0]), Convert.ToInt32(datos[i][1]), objetos);
+                        i++;
+                    }
+                    else if (trabajo.Equals("Arreglar objetos", StringComparison.OrdinalIgnoreCase))
+                    {
+                        List<int> objetos = new List<int>();
+                        objetos.Add(Convert.ToInt32(datos[i][2]));
+                        objetos.Add(Convert.ToInt32(datos[i][3]));
+                        objetos.Add(Convert.ToInt32(datos[i][4]));
+
+                        Habitante.SolicitarArreglarObjetos(casa, Convert.ToInt32(datos[i][0]), Convert.ToInt32(datos[i][1]), objetos);
+                        i++;
+                    }
                 }
-                Console.WriteLine("Los cambios solicitados han sido realizados.");
+                Console.WriteLine("Intervencion inicial en proceso");
             }
             else
             {
-                Console.WriteLine("Los cambios solicitados han sido cancelados.");
+                Console.WriteLine("Intervencion inicial cancelada.");
             }
         }
 

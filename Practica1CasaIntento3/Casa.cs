@@ -75,12 +75,12 @@ namespace Practica1CasaIntento3
 
                     Random random = new Random();
                     //random para ver si crea  una persona o no
-                    int opcionCrearpersona = random.Next(2);
+                    int opcionCrearpersona = random.Next(4);
                     
                     Habitante habitanteAux;
 
                     //si da 0 no se crea la persona
-                    if(opcionCrearpersona == 0)
+                    if(opcionCrearpersona != 0)
                     {
                         habitanteAux = null;
                     }
@@ -221,7 +221,7 @@ namespace Practica1CasaIntento3
         public void AmpliarHabitacionCasa(int fila,int numeroHabitacion,double aumento)
         {
             planoCasa[fila][numeroHabitacion - 1].AmpliarHabitacion(aumento);
-            MostrarPlanos();
+            //MostrarPlanos();
         }
         //Para calcular en donde empieza y termina una habitacion: [posicion inicio, posicion final]
         public double[] CalcularPosicionHabitacion(int posicionDeFila, int numeroDeHabitacion)

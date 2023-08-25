@@ -58,7 +58,7 @@ namespace Practica1CasaIntento3
 
         public static void SolicitarAmpliacionHabitacion(Casa casa, int fila = -1, int numeroHabitacion = -1, double aumento = -1)
         {
-            casa.MostrarPlanos();
+            //casa.MostrarPlanos();
 
 
             if (fila == -1 && numeroHabitacion == -1 && aumento == -1)
@@ -122,10 +122,10 @@ namespace Practica1CasaIntento3
             }
         }
 
-        public static void SolicitarDecorarHabitacion(Casa casa, int fila = -1, int numeroHabitacion = -1)
+        public static void SolicitarDecorarHabitacion(Casa casa, int fila = -1, int numeroHabitacion = -1,List<int> objetos=null)
         {
 
-            casa.MostrarPlanos();
+            //casa.MostrarPlanos();
 
             if (fila == -1 && numeroHabitacion == -1)
             {
@@ -140,7 +140,7 @@ namespace Practica1CasaIntento3
             {
                 if (numeroHabitacion > 0 && numeroHabitacion - 1 < casa.PlanoCasa[fila].Count)
                 {
-                    EmpresaRemodelaje.MostrarMenu(casa, casa.PlanoCasa[fila][numeroHabitacion - 1]);
+                    EmpresaRemodelaje.MostrarMenu(casa, casa.PlanoCasa[fila][numeroHabitacion - 1],objetos);
                 }
                 else
                 {
@@ -158,19 +158,24 @@ namespace Practica1CasaIntento3
             List<string> trabajos = IngresarServicios();
 
             List<List<string>> datos = new List<List<string>>
-            {
-                new List<string> { "Gimnasio", "3", "20"},
-                new List<string> { "Sala", "0", "5"},
-                new List<string> { "2", "2", "10"},
-                new List<string> { "cuarto", "2", "15"},
-                new List<string> { "Cocina", "0", "10"},
-                new List<string> { "0", "1", "5"},
-                new List<string> { "2", "3", "10"},
-                new List<string> { "1", "1", "15"}
-            };
+    {
+        new List<string> { "Gimnasio", "3", "20"},
+        new List<string> { "1", "1", "3", "2", "0"},
+        new List<string> { "Sala", "0", "5"},
+        new List<string> { "2", "2", "10"},
+        new List<string> { "cuarto", "2", "15"},
+        new List<string> { "0", "2", "1", "3", "0"},
+        new List<string> { "1", "1", "0", "1", "2"},
+        new List<string> { "Cocina", "1", "10"},
+        new List<string> { "0", "1", "5"},
+        new List<string> { "2", "3", "10"},
+        new List<string> { "0", "2", "0", "1", "2"},
+        new List<string> { "1", "1", "15"},
+        new List<string> { "2", "3", "0", "1", "2"}
+    };
 
             double costoTotalInicial = EmpresaRemodelaje.CalcularCostoInicial(trabajos);
-            double tiempoTotalInicial = EmpresaRemodelaje.CalcularTiempoTotalInicial(trabajos,datos);
+            double tiempoTotalInicial = EmpresaRemodelaje.CalcularTiempoTotalInicial(trabajos, datos);
 
             int trabajadoresRequeridos = (int)Math.Ceiling(tiempoTotalInicial);
             double costoTrabajadores = trabajadoresRequeridos * 40000;
@@ -185,12 +190,12 @@ namespace Practica1CasaIntento3
             Console.WriteLine($"Tiempo requerido: {tiempoTotalInicial} horas");
             Console.WriteLine($"Número de trabajadores requeridos: {trabajadoresRequeridos}");
 
-            EmpresaRemodelaje.RealizarIntervencionSolicitada(casa,trabajos,datos);
+            EmpresaRemodelaje.RealizarIntervencionSolicitada(casa, trabajos, datos);
         }
 
-        public static void SolicitarArreglarObjetos(Casa casa, int fila = -1, int numeroHabitacion=-1)
+        public static void SolicitarArreglarObjetos(Casa casa, int fila = -1, int numeroHabitacion=-1,List<int> objetos=null)
         {
-            casa.MostrarPlanos();
+            //casa.MostrarPlanos();
 
 
             if (fila == -1 && numeroHabitacion == -1)
@@ -210,7 +215,7 @@ namespace Practica1CasaIntento3
                     //EmpresaRemodelaje.MostrarMenu(casa, casa.PlanoCasa[fila][numeroHabitacion - 1]);
 
                     //Crear un metodo de la empresa llamado:
-                    EmpresaRemodelaje.SeleccionarArreglarObjetos(casa.PlanoCasa[fila][numeroHabitacion - 1]);
+                    EmpresaRemodelaje.SeleccionarArreglarObjetos(casa.PlanoCasa[fila][numeroHabitacion - 1],objetos);
                 }
                 else
                 {
@@ -228,11 +233,11 @@ namespace Practica1CasaIntento3
         public static List<string> IngresarServicios()
         {
             List<string> trabajos = new List<string>()
-            {
-                "Agregar habitacion", "Agregar habitacion", "Ampliacion de habitacion",
-                "Agregar habitacion", "Agregar habitacion","Ampliacion de habitacion",
-                "Ampliacion de habitacion","Ampliacion de habitacion"
-            };
+    {
+        "Agregar habitacion", "Decorar habitacion", "Agregar habitacion", "Ampliacion de habitacion",
+        "Agregar habitacion", "Decorar habitacion", "Arreglar objetos", "Agregar habitacion","Ampliacion de habitacion",
+        "Ampliacion de habitacion", "Arreglar objetos", "Ampliacion de habitacion", "Arreglar objetos"
+    };
 
             //Console.WriteLine("Ingrese los servicios solicitados (ingrese 'fin' para finalizar):");
             /* while (true)
