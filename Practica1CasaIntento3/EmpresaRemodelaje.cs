@@ -43,6 +43,8 @@ namespace Practica1CasaIntento3
 
         public static List<Remodelador> CrearRemodeladores()
         {
+           
+            
             List<Remodelador> remodeladores = new List<Remodelador>();
             for (int i = 0; i < num_trabajadores; i++)
             {
@@ -95,57 +97,70 @@ namespace Practica1CasaIntento3
         }
 
 
-        public static async void ArreglarObjetos(Habitacion habitacionObjetosArreglar,List<int> indicesObjetosArreglar)
+        public static async void ArreglarObjetos(Habitacion habitacionObjetosArreglar, List<int> indicesObjetosArreglar)
         {
-           
-            List<Remodelador> remodeladoresArreglar = new List<Remodelador>();
-
-            List<int> indicesPorBorrar = new List<int>();
-
-
-            //ciclo para revisar que objetos estan buenos o malos, para saber si se ocupa o no a los trabajadores
-            for(int i = 0; i < indicesObjetosArreglar.Count; i++)
+            if (indicesObjetosArreglar.Count > TrabajadoresDisponibles)
             {
+                Console.WriteLine("No hay suficientes trabajadores para revisar Los objetos");
+                return;
+            }
+            else
+            { 
 
-                //pongo el objeto que se va a revisar  en una variable
-                Objeto objetoARevisar = habitacionObjetosArreglar.Objetos[indicesObjetosArreglar[i]];
+                List<Remodelador> remodeladoresArreglar = new List<Remodelador>();
 
-                if (listaDisponibles[i].RevisarObjeto(objetoARevisar) == true)
+                List<int> indicesPorBorrar = new List<int>();
+
+
+
+                //ciclo para revisar que objetos estan buenos o malos, para saber si se ocupa o no a los trabajadores
+                for (int i = 0; i < indicesObjetosArreglar.Count; i++)
                 {
-                    indicesPorBorrar.Add(indicesObjetosArreglar[i]);
+
+                    //pongo el objeto que se va a revisar  en una variable
+                    Objeto objetoARevisar = habitacionObjetosArreglar.Objetos[indicesObjetosArreglar[i]];
+
+                    if (listaDisponibles[i].RevisarObjeto(objetoARevisar) == true)
+                    {
+                        indicesPorBorrar.Add(indicesObjetosArreglar[i]);
+                    }
+                    else
+                    {
+                        //El trabajador que lo reviso sera el mismo que lo arregle
+                        remodeladoresArreglar.Add(listaDisponibles[i]);
+                    }
                 }
-                else
+
+                //ciclo para borrar los indices de los objetos que estaban buenos
+                foreach (int indice in indicesPorBorrar)
                 {
-                    //El trabajador que lo reviso sera el mismo que lo arregle
-                    remodeladoresArreglar.Add(listaDisponibles[i]);
+                    indicesObjetosArreglar.Remove(indice);
                 }
+
+                //1 hora por item. Y 1 trabajador por item
+                int cantidadTrabajadoresTarea = indicesObjetosArreglar.Count;
+
+                //Ocupamos trabajadores
+                TrabajadoresDisponibles -=  cantidadTrabajadoresTarea;
+
+                int tiempoTarea = indicesObjetosArreglar.Count;
+
+                double precioArreglar = cantidadTrabajadoresTarea * tiempoTarea * 40000;
+                //ahora si arreglamos
+                Console.WriteLine($"La reparación tardará {tiempoTarea} horas ({tiempoTarea * 2} segundos)");
+                await Task.Delay(TimeSpan.FromSeconds(tiempoTarea * 2));
+
+                for (int t = 0; t < indicesObjetosArreglar.Count; t++)
+                {
+                    Objeto objetoArreglar = habitacionObjetosArreglar.Objetos[indicesObjetosArreglar[t]];
+
+                    remodeladoresArreglar[t].arreglarObjetoHab(objetoArreglar);
+                }
+                TrabajadoresDisponibles += cantidadTrabajadoresTarea;
+                precioActualizado += precioArreglar;
+
+                Console.WriteLine($"El precio final se ha actualizado a: {precioActualizado}");
             }
-
-            //ciclo para borrar los indices de los objetos que estaban buenos
-            foreach(int indice in indicesPorBorrar)
-            {
-                indicesObjetosArreglar.Remove(indice);
-            }
-
-            //1 hora por item. Y 1 trabajador por item
-            int cantidadTrabajadoresTarea = indicesObjetosArreglar.Count;
-            int tiempoTarea = indicesObjetosArreglar.Count;
-
-            double precioArreglar = cantidadTrabajadoresTarea * tiempoTarea * 40000;
-            //ahora si arreglamos
-            Console.WriteLine($"La reparación tardará {tiempoTarea} horas ({tiempoTarea * 2} segundos)");
-            await Task.Delay(TimeSpan.FromSeconds(tiempoTarea * 2));
-
-            for (int t = 0; t < indicesObjetosArreglar.Count; t++)
-            {
-                Objeto objetoArreglar = habitacionObjetosArreglar.Objetos[indicesObjetosArreglar[t]];
-
-                remodeladoresArreglar[t].arreglarObjetoHab(objetoArreglar);
-            }
-            precioActualizado += precioArreglar;
-
-            Console.WriteLine($"El precio final se ha actualizado a: {precioActualizado}");
-
         }
 
 
@@ -229,7 +244,7 @@ namespace Practica1CasaIntento3
             double tiempoTarea = objetosParaDecorar.Count * 0.5;
 
             //Para decorar habitacion solo se necesita un trabajador
-
+            
             TrabajadoresDisponibles -= 1;
             //trabajador.ocupado = true;
             double precioDecoracion = tiempoTarea * 40000;
@@ -242,6 +257,8 @@ namespace Practica1CasaIntento3
             //trabajador.ocupado = false;
             habDecorar.AgregarDecoracion(objetosParaDecorar);
 
+            //Se desocupa al trabajador
+            TrabajadoresDisponibles += 1;
             precioActualizado += precioDecoracion;
 
             Console.WriteLine($"El precio final se ha actualizado a: {precioActualizado}");
@@ -257,10 +274,10 @@ namespace Practica1CasaIntento3
             Habitacion nueva_habitacion = new Habitacion(nombreNuevaHab, metros, fila, casa.DiccionarioFilas[fila] + 1);
             //Verificar si se puede crear por lo de personas en habitaciones adyacentes
 
+            
 
 
-
-            //double metrosCuadrados = nueva_habitacion.MetrosCuadrados; //Codigo sucio. Ya existia metros en los parametros. Wtf angel
+            //double metrosCuadrados = nueva_habitacion.MetrosCuadrados;
             int trabajadoresParaTarea = Trabajadores_AñadirNuevaHabitacion(metros);
             double tiempo = Tiempo_AñadirNuevaHabitacion(metros);
 
@@ -323,11 +340,11 @@ namespace Practica1CasaIntento3
 
             if (trabajadores <= TrabajadoresDisponibles)
             {
+                TrabajadoresDisponibles -= trabajadores;
                 Console.WriteLine($"La Construccion Ampliación {tiempo} horas ({tiempo * 2} segundos)");
                 await Task.Delay(TimeSpan.FromSeconds(tiempo * 2));
 
                 casa.AmpliarHabitacionCasa(fila, numeroHabitacion, aumento);
-                TrabajadoresDisponibles -= trabajadores;
                 //Asincrona para esperar mientras lo hacen la tarea.
             }
             else
@@ -519,6 +536,8 @@ namespace Practica1CasaIntento3
 
         public static void RealizarIntervencionSolicitada(Casa casa, List<string> trabajosSolicitados, List<List<string>> datos)
         {
+            
+
             Console.WriteLine($"¿Desea realizar los cambios solicitados? (Si/No)");
             string respuesta = Console.ReadLine();
 
