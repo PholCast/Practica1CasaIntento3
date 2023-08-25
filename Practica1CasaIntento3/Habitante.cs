@@ -188,7 +188,7 @@ namespace Practica1CasaIntento3
             EmpresaRemodelaje.RealizarIntervencionSolicitada(casa,trabajos,datos);
         }
 
-        public static void SolicitarArreglarObjetos(Objeto objetosParaArreglar, Casa casa, int fila = -1, int numeroHabitacion=-1)
+        public static void SolicitarArreglarObjetos(Casa casa, int fila = -1, int numeroHabitacion=-1)
         {
             casa.MostrarPlanos();
 
@@ -205,12 +205,12 @@ namespace Practica1CasaIntento3
 
             if (fila >= 0 && fila < casa.PlanoCasa.Count)
             {
-                if (numeroHabitacion > 0 && numeroHabitacion < casa.PlanoCasa[fila].Count)
+                if (numeroHabitacion > 0 && numeroHabitacion-1 < casa.PlanoCasa[fila].Count)
                 {
                     //EmpresaRemodelaje.MostrarMenu(casa, casa.PlanoCasa[fila][numeroHabitacion - 1]);
 
                     //Crear un metodo de la empresa llamado:
-                    //EmpresaRemodelaje.ArreglarObjetos(casa,casa.PlanoCasa[fila][numeroHabitacion - 1],objetosParaArreglar);
+                    EmpresaRemodelaje.SeleccionarArreglarObjetos(casa.PlanoCasa[fila][numeroHabitacion - 1]);
                 }
                 else
                 {

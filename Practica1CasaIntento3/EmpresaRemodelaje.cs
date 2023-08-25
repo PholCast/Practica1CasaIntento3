@@ -25,6 +25,7 @@ namespace Practica1CasaIntento3
 
         public static int TrabajadoresDisponibles = 24;// { get; set; }
 
+
         public static String[] remodeladorRandom =
                     {
             "Arnulfo", "Bernardo", "Cecilia", "Daniel", "Elias", "Federico",
@@ -35,6 +36,10 @@ namespace Practica1CasaIntento3
              };
 
         public static List<Remodelador> remodeladoresEmpresa = CrearRemodeladores();
+
+
+        //se pone dentro del parentesis remodeladoresEmpresa porque asi se genera una copia.
+        public static List<Remodelador> listaDisponibles = new List<Remodelador>(remodeladoresEmpresa);
 
         public static List<Remodelador> CrearRemodeladores()
         {
@@ -60,24 +65,86 @@ namespace Practica1CasaIntento3
             }
         }
 
-        public static void MostrarMenu(Casa casa, Habitacion habDecorar)
+
+
+        public static void ArreglarObjetos(Habitacion habitacionObjetosArreglar,List<int> indicesObjetosArreglar)
         {
-            bool continuar = true;
-            double espacioUsado = 0 + habDecorar.CalcularEspacioObjetos();
-            if (habDecorar.HabitanteFav!=null && habDecorar.HabitanteFav.HabitacionActual == habDecorar && TrabajadoresDisponibles > 0)
+           
+            List<Remodelador> remodeladoresArreglar = new List<Remodelador>();
+
+            List<int> indicesPorBorrar = new List<int>();
+
+
+            //ciclo para revisar que objetos estan buenos o malos, para saber si se ocupa o no a los trabajadores
+            for(int i = 0; i < indicesObjetosArreglar.Count; i++)
             {
-                List<Objeto> objetosDecorar = new List<Objeto>();
 
-                while (continuar)
+                //pongo el objeto que se va a revisar  en una variable
+                Objeto objetoARevisar = habitacionObjetosArreglar.Objetos[indicesObjetosArreglar[i]];
+
+                if (listaDisponibles[i].RevisarObjeto(objetoARevisar) == true)
                 {
-                    MostrarCatalogo();
-                    int opcion;
+                    indicesPorBorrar.Add(indicesObjetosArreglar[i]);
+                }
+                else
+                {
+                    //El trabajador que lo reviso sera el mismo que lo arregle
+                    remodeladoresArreglar.Add(listaDisponibles[i]);
+                }
+            }
 
+            //ciclo para borrar los indices de los objetos que estaban buenos
+            foreach(int indice in indicesPorBorrar)
+            {
+                indicesObjetosArreglar.Remove(indice);
+            }
+
+            //1 hora por item. Y 1 trabajador por item
+            int cantidadTrabajadoresTarea = indicesObjetosArreglar.Count;
+            int tiempoTarea = indicesObjetosArreglar.Count; ;
+
+            double precioArreglar = cantidadTrabajadoresTarea * tiempoTarea * 40000;
+            //ahora si arreglamos
+            for(int t = 0; t < indicesObjetosArreglar.Count; t++)
+            {
+                Objeto objetoArreglar = habitacionObjetosArreglar.Objetos[indicesObjetosArreglar[t]];
+
+                remodeladoresArreglar[t].arreglarObjetoHab(objetoArreglar);
+            }
+            precioActualizado += precioArreglar;
+
+            Console.WriteLine($"El precio final se ha actualizado a: {precioActualizado}");
+
+        }
+
+
+        public static void SeleccionarArreglarObjetos(Habitacion habitacionArreglar)
+        {
+            bool continuarEleccion = true;
+            List<int> indicesObjetos = new List<int>();
+            if(habitacionArreglar.Objetos.Count == 0)
+            {
+                Console.WriteLine("Error, Esta habitacion no tiene objetos");
+                return;
+            }
+            else if (TrabajadoresDisponibles == 0)
+            {
+                Console.WriteLine("No hay trabajadores disponibles en este momento"); 
+                return;
+            }
+
+            else
+            {
+                while (continuarEleccion)
+                {
+                    habitacionArreglar.MostrarObjetosHabitacion();
+                    Console.WriteLine($"{habitacionArreglar.Objetos.Count}. Finalizar solicitud de arreglo");
+                    int opcion;
                     do
                     {
                         try
                         {
-                            Console.WriteLine("Seleccione un número del 1 al 6 para elegir un objeto (0 para pasar a comprar): ");
+                            Console.WriteLine($"Seleccione un número del 0 al {habitacionArreglar.Objetos.Count} para elegir un objeto: ");
                             opcion = Convert.ToInt32(Console.ReadLine());
                         }
                         catch (FormatException)
@@ -85,185 +152,33 @@ namespace Practica1CasaIntento3
                             Console.WriteLine("Error: La entrada no es un número válido. Intente de nuevo.");
                             opcion = -1; // Establece una opción inválida para continuar el ciclo
                         }
+                    }while(opcion < 0 || opcion > habitacionArreglar.Objetos.Count);
 
-                    } while (opcion < 0 || opcion > 6);
 
-                    Objeto objetoACrear = null;
 
-                    switch (opcion)
+                    if(opcion == habitacionArreglar.Objetos.Count)
                     {
-                        case 0:
-                            {
-                                continuar = false;
-                                EmpresaRemodelaje.DecorarHabitacion(casa,habDecorar,objetosDecorar);
-                                // Remodelador.AgregarObjetos(casa, habDecorar, objetos);    Angel arregla esto
-
-                                break;
-                            }
-                        case 1:
-                            {
-                                if ((espacioUsado + catalogo["Silla"][1]) < habDecorar.MetrosCuadrados)
-                                {
-                                    objetoACrear = new Objeto("Silla", catalogo["Silla"][0], catalogo["Silla"][1]);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No hay espacio suficiente para agregar la silla");
-                                }
-
-                                break;
-                            }
-                        case 2:
-                            {
-                                if ((espacioUsado + catalogo["Mesa"][1]) < habDecorar.MetrosCuadrados)
-                                {
-                                    objetoACrear = new Objeto("Mesa", catalogo["Mesa"][0], catalogo["Mesa"][1]);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No hay espacio suficiente para agregar la Mesa");
-                                }
-
-                                break;
-                            }
-                        case 3:
-                            {
-                                if ((espacioUsado + catalogo["Cuadro"][1]) < habDecorar.MetrosCuadrados)
-                                {
-                                    objetoACrear = new Objeto("Cuadro", catalogo["Cuadro"][0], catalogo["Cuadro"][1]);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No hay espacio suficiente para agregar el cuadro");
-                                }
-
-                                break;
-                            }
-                        case 4:
-                            {
-                                if ((espacioUsado + catalogo["TV"][1]) < habDecorar.MetrosCuadrados)
-                                {
-                                    objetoACrear = new Objeto("TV", catalogo["TV"][0], catalogo["TV"][1]);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No hay espacio suficiente para agregar la TV");
-                                }
-
-                                break;
-                            }
-                        case 5:
-                            {
-                                if ((espacioUsado + catalogo["Cama"][1]) < habDecorar.MetrosCuadrados)
-                                {
-                                    objetoACrear = new Objeto("Cama", catalogo["Cama"][0], catalogo["Cama"][1]);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No hay espacio suficiente para agregar la Cama");
-                                }
-
-                                break;
-                            }
-                        case 6:
-                            {
-                                if ((espacioUsado + catalogo["Jarron"][1]) < habDecorar.MetrosCuadrados)
-                                {
-                                    objetoACrear = new Objeto("Jarron", catalogo["Jarron"][0], catalogo["Jarron"][1]);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No hay espacio suficiente para agregar el Jarron");
-                                }
-
-                                break;
-                            }
-                        default:
-                            {
-                                Console.WriteLine("Opcion Invalida");
-                                break;
-                            }
-                    }
-
-                 if(objetoACrear != null)
-                    {
-                 objetosDecorar.Add(objetoACrear);
+                        continuarEleccion=false;
 
                     }
+                    else if(indicesObjetos.Count == TrabajadoresDisponibles)
+                    {
+                        Console.WriteLine("Error, en el momento ya no hay más trabajadores disponibles");
+                    }
+                    else if (indicesObjetos.Contains(opcion))
+                    {
+                        Console.WriteLine("Error, ya seleccionaste ese objeto");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"opcion {opcion} Seleccionada");
+                        indicesObjetos.Add(opcion);
+                    }
+                    
                 }
-            }
-            else if(habDecorar.HabitanteFav == null)
-            {
-                Console.WriteLine("La habitacion no tiene habitante favorito, define uno para que podamos decorarla");
-            }
-
-            else if (TrabajadoresDisponibles == 0)
-            {
-                Console.WriteLine("En este momento no hay trabajadores disponibles para decorar la habitacion");
-            }
-            else
-            {
-                Console.WriteLine($"El habitante favorito {habDecorar.HabitanteFav.Nombre} no se encuentra en la habitacion :( ");
-                string guardar;
-                Console.WriteLine("Desea decorar otra habitacion [s/n]: ");
-                guardar = Console.ReadLine();
-                if (guardar.Equals("s", StringComparison.OrdinalIgnoreCase))
-                {
-                    Habitante.SolicitarDecorarHabitacion(casa);
-                }
+                ArreglarObjetos(habitacionArreglar,indicesObjetos);
             }
         }
-
-
-
-
-
-
-
-
-
-        // PARTE DE ANGEL
-        public static double Tiempo_AñadirNuevaHabitacion(double metrosCuadrados)
-        {
-            return 1.5 * metrosCuadrados;
-        }
-
-        public static int Trabajadores_AñadirNuevaHabitacion(double metrosCuadrados)
-        {
-            return (int)Math.Ceiling(metrosCuadrados / 10) * 2;
-        }
-
-        public static double Tiempo_AmpliarHabitacion(double metrosCuadrados)
-        {
-            return 1.0 * metrosCuadrados;
-        }
-
-        public static int Trabajadores_AmpliarHabitacion(double metrosCuadrados)
-        {
-            return (int)Math.Ceiling(metrosCuadrados / 10);
-        }
-
-        /*public static double Tiempo_DecorarHabitacion(int cantidadItems)
-        {
-            return 0.5 * cantidadItems;
-        }
-
-        public static int Trabajadores_DecorarHabitacion()
-        {
-            return 1; //WTF?
-        }
-
-        public static double Tiempo_ArreglarHabitacion(int cantidadItems)
-        {
-            return 1.0 * cantidadItems; //WTF?
-        }
-
-        public static int Trabajadores_ArreglarHabitacion(int cantidadItems)
-        {
-            return cantidadItems; //???
-        }*/
-
-
 
         public static void DecorarHabitacion(Casa casa, Habitacion habDecorar, List<Objeto> objetosParaDecorar)
         {
@@ -377,6 +292,161 @@ namespace Practica1CasaIntento3
             
         }
 
+        //Metodo para mostrar el menu de decoracion
+        public static void MostrarMenu(Casa casa, Habitacion habDecorar)
+        {
+            bool continuar = true;
+            double espacioUsado = 0 + habDecorar.CalcularEspacioObjetos();
+            if (habDecorar.HabitanteFav != null && habDecorar.HabitanteFav.HabitacionActual == habDecorar && TrabajadoresDisponibles > 0)
+            {
+                List<Objeto> objetosDecorar = new List<Objeto>();
+
+                while (continuar)
+                {
+                    MostrarCatalogo();
+                    int opcion;
+
+                    do
+                    {
+                        try
+                        {
+                            Console.WriteLine("Seleccione un número del 1 al 6 para elegir un objeto (0 para pasar a comprar): ");
+                            opcion = Convert.ToInt32(Console.ReadLine());
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Error: La entrada no es un número válido. Intente de nuevo.");
+                            opcion = -1; // Establece una opción inválida para continuar el ciclo
+                        }
+
+                    } while (opcion < 0 || opcion > 6);
+
+                    Objeto objetoACrear = null;
+
+                    switch (opcion)
+                    {
+                        case 0:
+                            {
+                                continuar = false;
+                                EmpresaRemodelaje.DecorarHabitacion(casa, habDecorar, objetosDecorar);
+
+
+                                break;
+                            }
+                        case 1:
+                            {
+                                if ((espacioUsado + catalogo["Silla"][1]) < habDecorar.MetrosCuadrados)
+                                {
+                                    objetoACrear = new Objeto("Silla", catalogo["Silla"][0], catalogo["Silla"][1]);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No hay espacio suficiente para agregar la silla");
+                                }
+
+                                break;
+                            }
+                        case 2:
+                            {
+                                if ((espacioUsado + catalogo["Mesa"][1]) < habDecorar.MetrosCuadrados)
+                                {
+                                    objetoACrear = new Objeto("Mesa", catalogo["Mesa"][0], catalogo["Mesa"][1]);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No hay espacio suficiente para agregar la Mesa");
+                                }
+
+                                break;
+                            }
+                        case 3:
+                            {
+                                if ((espacioUsado + catalogo["Cuadro"][1]) < habDecorar.MetrosCuadrados)
+                                {
+                                    objetoACrear = new Objeto("Cuadro", catalogo["Cuadro"][0], catalogo["Cuadro"][1]);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No hay espacio suficiente para agregar el cuadro");
+                                }
+
+                                break;
+                            }
+                        case 4:
+                            {
+                                if ((espacioUsado + catalogo["TV"][1]) < habDecorar.MetrosCuadrados)
+                                {
+                                    objetoACrear = new Objeto("TV", catalogo["TV"][0], catalogo["TV"][1]);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No hay espacio suficiente para agregar la TV");
+                                }
+
+                                break;
+                            }
+                        case 5:
+                            {
+                                if ((espacioUsado + catalogo["Cama"][1]) < habDecorar.MetrosCuadrados)
+                                {
+                                    objetoACrear = new Objeto("Cama", catalogo["Cama"][0], catalogo["Cama"][1]);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No hay espacio suficiente para agregar la Cama");
+                                }
+
+                                break;
+                            }
+                        case 6:
+                            {
+                                if ((espacioUsado + catalogo["Jarron"][1]) < habDecorar.MetrosCuadrados)
+                                {
+                                    objetoACrear = new Objeto("Jarron", catalogo["Jarron"][0], catalogo["Jarron"][1]);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No hay espacio suficiente para agregar el Jarron");
+                                }
+
+                                break;
+                            }
+                        default:
+                            {
+                                Console.WriteLine("Opcion Invalida");
+                                break;
+                            }
+                    }
+
+                    if (objetoACrear != null)
+                    {
+                        objetosDecorar.Add(objetoACrear);
+
+                    }
+                }
+            }
+            else if (habDecorar.HabitanteFav == null)
+            {
+                Console.WriteLine("La habitacion no tiene habitante favorito, define uno para que podamos decorarla");
+            }
+
+            else if (TrabajadoresDisponibles == 0)
+            {
+                Console.WriteLine("En este momento no hay trabajadores disponibles para decorar la habitacion");
+            }
+            else
+            {
+                Console.WriteLine($"El habitante favorito {habDecorar.HabitanteFav.Nombre} no se encuentra en la habitacion :( ");
+                string guardar;
+                Console.WriteLine("Desea decorar otra habitacion [s/n]: ");
+                guardar = Console.ReadLine();
+                if (guardar.Equals("s", StringComparison.OrdinalIgnoreCase))
+                {
+                    Habitante.SolicitarDecorarHabitacion(casa);
+                }
+            }
+        }
+
 
         public static void RealizarIntervencionSolicitada(Casa casa, List<string> trabajosSolicitados, List<List<string>> datos)
         {
@@ -452,6 +522,29 @@ namespace Practica1CasaIntento3
                 }
             }
             return tiempoTotal;
+        }
+
+
+
+        // PARTE DE ANGEL
+        public static double Tiempo_AñadirNuevaHabitacion(double metrosCuadrados)
+        {
+            return 1.5 * metrosCuadrados;
+        }
+
+        public static int Trabajadores_AñadirNuevaHabitacion(double metrosCuadrados)
+        {
+            return (int)Math.Ceiling(metrosCuadrados / 10) * 2;
+        }
+
+        public static double Tiempo_AmpliarHabitacion(double metrosCuadrados)
+        {
+            return 1.0 * metrosCuadrados;
+        }
+
+        public static int Trabajadores_AmpliarHabitacion(double metrosCuadrados)
+        {
+            return (int)Math.Ceiling(metrosCuadrados / 10);
         }
     }
 }

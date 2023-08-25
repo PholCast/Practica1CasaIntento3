@@ -24,6 +24,7 @@ namespace Practica1CasaIntento3
                 int opcionMain;
                 do
                 {
+                    Console.WriteLine("----------------------------------------------------");
                     Console.WriteLine("BIENVENIDO AL SOFTWARE CLEAN CODE\n" +
                         "\n1.Solicitar intervencion inicial" +
                         "\n2.Agregar una nueva habitacion" +
@@ -33,7 +34,15 @@ namespace Practica1CasaIntento3
                         "\n6.Mover un habitante" +
                         "\n7.Salir\nELIGE UNA OPCION:");
 
-                    opcionMain = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("----------------------------------------------------");
+                    try
+                    {
+                        opcionMain = Convert.ToInt32(Console.ReadLine());
+                    }
+                    catch (FormatException) {
+                        opcionMain = -1;
+                    }
+
 
                     switch (opcionMain)
                     {
@@ -60,7 +69,7 @@ namespace Practica1CasaIntento3
                             Habitante.SolicitarDecorarHabitacion(casa1);
                             break;
                         case 5:
-                            //Habitante.SolicitarArreglarObjetos(casa1); agregar luego
+                            Habitante.SolicitarArreglarObjetos(casa1); 
                             break;
                         case 6:
 

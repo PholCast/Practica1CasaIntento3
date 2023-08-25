@@ -31,6 +31,24 @@ namespace Practica1CasaIntento3
 
         }
 
+
+        public bool RevisarObjeto(Objeto objetoRevisar)
+        {
+            ocupado = true;
+
+            if(objetoRevisar.Estado == true) {
+
+                ocupado = false;
+                Console.WriteLine($"{nombre} dice: el objeto {objetoRevisar.Nombre} esta en buen estado");
+                return true;
+            
+            }
+            else {
+                Console.WriteLine($"{nombre} revisa: el objeto {objetoRevisar.Nombre} esta malo");
+                return false;
+            }
+            
+        }
         public void AgregarObjetos(Casa casa, Habitacion habDecorar, List<Objeto> listaObjetos)
         {
 
@@ -58,6 +76,7 @@ namespace Practica1CasaIntento3
             {
                 objetoArreglar.Estado = true;
                 Console.WriteLine($"El empleado {nombre} ha arreglado el objeto {objetoArreglar.Nombre}");
+                ocupado = false;
             }
             else
             {

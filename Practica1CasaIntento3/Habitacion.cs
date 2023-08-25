@@ -178,10 +178,12 @@ namespace Practica1CasaIntento3
         
         public void MostrarObjetosHabitacion()
         {
+            int contador = 0;
             Console.WriteLine("Objetos en la habitacion: ");
             foreach (Objeto objetosEnHabitacion in objetos)
             {
-                Console.WriteLine(objetosEnHabitacion.Nombre);
+                Console.WriteLine($"{contador}. {objetosEnHabitacion.Nombre}");
+                contador++;
             }
         }
 
